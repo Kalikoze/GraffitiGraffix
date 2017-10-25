@@ -1,0 +1,26 @@
+.main-section {
+  background-color: none;
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50%;
+}
+
+.content h2 {
+  font-size: 50px;
+}
+
+.main-section-image {
+  height: 100%;
+  width: 50%;
+}
+
+.artists .main-section-image {
+  object-fit: cover;
+}

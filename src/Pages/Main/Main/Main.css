@@ -1,0 +1,10 @@
+.main {
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.whats-hot {
+  flex-direction: row-reverse;
+}
