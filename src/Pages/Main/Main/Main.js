@@ -1,5 +1,6 @@
 import React from 'react';
 import MainSection from '../MainSection/MainSection';
+import Navigation from '../Navigation/Navigation';
 import './Main.css';
 import GraffitiGraffix from '../assets/GraffitiGraffix.mp4';
 import audio from '../assets/Insane-In-The-Brain.mp3';
@@ -10,6 +11,7 @@ import PaintExplosion from '../assets/paint-explosion.png';
 const Main = () => {
   return (
     <div className="main">
+      <Navigation />
       <section className="l-above-fold">
         <video src={GraffitiGraffix} autoPlay loop />
         <audio src={audio} autoPlay />
