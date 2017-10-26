@@ -16,6 +16,9 @@ const Main = () => {
         <video src={GraffitiGraffix} autoPlay loop />
         <audio src={audio} autoPlay />
       </section>
+      <section className="title">
+        <h1>Graffiti Graffix</h1>
+      </section>
       <section className="l-below-fold">
         <MainSection
           src={PaintSplashLeft}
