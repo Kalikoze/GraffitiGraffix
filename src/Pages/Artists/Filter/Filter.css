@@ -1,0 +1,15 @@
+.filter-options {
+  background-color: #000;
+  border: 3px solid #FFF;
+  color: #FFF;
+  font-family: 'SamsungSharpSans-Bold';
+  font-size: 2vw;
+  height: 10vh;
+  width: calc(100%/3);
+}
+
+.filter-options:hover {
+  background-color: #FFF;
+  border: 3px solid #000;
+  color: #000;
+}
