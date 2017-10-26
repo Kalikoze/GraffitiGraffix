@@ -35,7 +35,7 @@ export default class Navigation extends Component {
         </div>
 
         <div className="nav-section">
-          <NavLink to="/" className="artists-link link">
+          <NavLink to="/artists" className="artists-link link">
             Artists
           </NavLink>
         </div>

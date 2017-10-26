@@ -1,0 +1,35 @@
+.l-single-artist {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.l-name-tag {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.l-single-artist-images {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 60%;
+}
+
+
+.single-artist-name {
+  font-family: 'SamsungSharpSans-Bold';
+}
+
+.single-artist-tag {
+  height: 8vw;
+  width: 14vw;
+}
+
+.single-artist-image {
+  height: 12vw;
+  width: 18vw;
+}
