@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import './Artists.css'
 import helperArtists from '../../../helpers/helperArtists';
+import SingleArtist from '../SingleArtist/SingleArtist';
 
 export default class Artists extends Component {
   constructor() {
@@ -16,11 +18,11 @@ export default class Artists extends Component {
   }
 
   render() {
-    const artistList = helperArtists.map(artist => <SingleArtist {..artist}/>);
+    const artistList = helperArtists.map((artist, i) => <SingleArtist key={i} {...artist}/>);
 
     return (
       <section className="l-artists">
-
+        {artistList}
       </section>
     )
   }

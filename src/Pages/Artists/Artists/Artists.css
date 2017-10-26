@@ -1,0 +1,6 @@
+.l-artists {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  top: 8vh;
+}
