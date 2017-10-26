@@ -17,8 +17,7 @@ const Main = () => {
         <audio src={audio} autoPlay />
       </section>
       <section className="title">
-        <h1>G - G</h1>
-        <h2>Graffiti Graffix</h2>
+        <h1>Graffiti Graffix</h1>
       </section>
       <section className="l-below-fold">
         <MainSection
