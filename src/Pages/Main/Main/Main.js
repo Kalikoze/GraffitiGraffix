@@ -14,7 +14,7 @@ const Main = () => {
       <Navigation />
       <section className="l-above-fold">
         <video src={GraffitiGraffix} autoPlay loop />
-        <audio src={audio} autoPlay />
+        {/*<audio src={audio} autoPlay />*/}
       </section>
       <section className="l-below-fold">
         <MainSection

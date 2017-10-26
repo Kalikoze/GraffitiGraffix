@@ -1,0 +1,39 @@
+nav {
+  display: flex;
+  height: 8vh;
+  justify-content: center;
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+}
+
+.search-bar {
+  background-color: black;
+  border: none;
+  color: white;
+  font-size: 24px;
+  opacity: .5;
+  outline: none;
+  padding-left: 10px;
+  width: 40%;
+}
+
+.nav-section {
+  align-items: center;
+  background-color: black;
+  display: flex;
+  font-size: 24px;
+  font-weight: bold;
+  justify-content: center;
+  opacity: 0.5;
+  width: 15%;
+}
+.link {
+  color: white;
+  text-decoration: none;
+  transition: .5s;
+}
+
+.link:hover {
+  color: red;
+}
