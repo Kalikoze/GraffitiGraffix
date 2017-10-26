@@ -1,4 +1,19 @@
-video {
+@font-face {
+  font-family: 'Samsung Sharp Sans Regular Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Samsung Sharp Sans Regular Regular'), url('../assets/SamsungSharpSansRegular-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'SamsungSharpSans-Bold';
+  font-style: normal;
+  font-weight: normal;
+  src: local('SamsungSharpSans-Bold'), url('../assets/samsung_s_sharp_by_629lyric-d8y77l9.woff') format('woff');
+}
+
+video,
+.title {
   height: 100vh;
   object-fit: cover;
   width: 100%;
@@ -10,6 +25,17 @@ video {
   color: white;
   display: flex;
   flex-direction: column;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  z-index: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  font-family: 'Samsung Sharp Sans Regular Regular';
 }
 
 .whats-hot {
