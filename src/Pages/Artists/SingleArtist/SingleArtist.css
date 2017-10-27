@@ -1,5 +1,5 @@
 .l-single-artist {
-  background-color: #FFF;
+  background-color: #fff;
   color: #000;
   border-top: 3px solid #000;
   border-bottom: 3px solid #000;
@@ -41,5 +41,5 @@
 }
 
 .single-artist-image:hover {
-  transform: scale(1.3);
+  transform: scale(1.2);
 }
