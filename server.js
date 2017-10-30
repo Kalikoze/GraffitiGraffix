@@ -140,6 +140,17 @@ app.post('/api/v1/followers', (request, response) => {
     .catch(error => response.status(500).json({ error }));
 });
 
+app.delete('/api/v1/users/:id', (request, response) => {
+  const id = request.params;
+
+  db('users').where(id).del()
+    .then(length => length ? response.sendStatus(204) : response.status(404).send({ error: `Nothing to delete with id of ${id}`}));
+})
+
+app.delete('/api/v1/images/:image_id', (request, response) => {
+  
+})
+
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
 });
