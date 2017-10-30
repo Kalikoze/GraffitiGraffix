@@ -3,7 +3,7 @@ exports.up = (knex, Promise) => {
     knex.schema.createTable('users', table => {
       table.increments('id').primary();
       table.string('name');
-      table.string('username');
+      table.string('username').unique();
       table.string('tag');
       table.string('shortBio');
       table.integer('followersCount');
@@ -12,9 +12,9 @@ exports.up = (knex, Promise) => {
 
     knex.schema.createTable('images', table => {
       table.increments('id').primary();
-      table.string('url');
+      table.string('url').unique();
       table.integer('user_id').unsigned();
-      table.foreign('user_id').references('users.id');
+      table.foreign('user_id').references('users.id').onDelete('cascade');
 
       table.timestamps(true, true);
     }),
@@ -23,9 +23,9 @@ exports.up = (knex, Promise) => {
       table.increments('id').primary();
       table.string('comment');
       table.integer('user_id').unsigned();
-      table.foreign('user_id').references('users.id');
+      table.foreign('user_id').references('users.id').onDelete('cascade');
       table.integer('image_id').unsigned();
-      table.foreign('image_id').references('images.id');
+      table.foreign('image_id').references('images.id').onDelete('cascade');
 
       table.timestamps(true, true);
     }),
@@ -34,8 +34,8 @@ exports.up = (knex, Promise) => {
       table.increments('id').primary();
       table.integer('follower_id');
       table.integer('artist_id');
-      table.foreign('follower_id').references('users.id');
-      table.foreign('artist_id').references('users.id');
+      table.foreign('follower_id').references('users.id').onDelete('cascade');
+      table.foreign('artist_id').references('users.id').onDelete('cascade');
       table.timestamps(true, true);
     })
   ]);
