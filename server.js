@@ -144,11 +144,16 @@ app.delete('/api/v1/users/:id', (request, response) => {
   const id = request.params;
 
   db('users').where(id).del()
-    .then(length => length ? response.sendStatus(204) : response.status(404).send({ error: `Nothing to delete with id of ${id}`}));
+    .then(length => length ? response.sendStatus(204) : response.status(404).send({ error: `No user to delete with id of ${id.id}`}))
+    .catch(error => response.status(500).json({error}));
 })
 
-app.delete('/api/v1/images/:image_id', (request, response) => {
-  
+app.delete('/api/v1/images/:id', (request, response) => {
+  const id = request.params;
+
+  db('images').where(id).del()
+    .then(length => length ? response.sendStatus(204) : response.status(404).send({ error: `No image to delete with id of ${id.id}`}))
+    .catch(error => response.status(500).json({error}));
 })
 
 app.listen(app.get('port'), () => {
