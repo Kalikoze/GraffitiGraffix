@@ -140,6 +140,39 @@ app.post('/api/v1/followers', (request, response) => {
     .catch(error => response.status(500).json({ error }));
 });
 
+app.delete('/api/v1/users/:id', (request, response) => {
+  const id = request.params;
+
+  db('users').where(id).del()
+    .then(length => length ? response.sendStatus(204) : response.status(404).send({ error: `No user to delete with id of ${id.id}`}))
+    .catch(error => response.status(500).json({error}));
+})
+
+app.delete('/api/v1/images/:id', (request, response) => {
+  const id = request.params;
+
+  db('images').where(id).del()
+    .then(length => length ? response.sendStatus(204) : response.status(404).send({ error: `No image to delete with id of ${id.id}`}))
+    .catch(error => response.status(500).json({error}));
+})
+
+app.delete('/api/v1/comments/:id', (request, response) => {
+  const id = request.params;
+
+  db('comments').where(id).del()
+    .then(length => length ? response.sendStatus(204) : response.status(404).send({ error: `No comment to delete with id of ${id.id}`}))
+    .catch(error => response.status(500).json({error}));
+})
+
+app.delete('/api/v1/followers/:id', (request, response) => {
+  const id = request.params;
+
+  db('followers').where(id).del()
+    .then(length => length ? response.sendStatus(204) : response.status(404).send({ error: `No follower to delete with id of ${id.id}`}))
+    .catch(error => response.status(500).json({error}));
+})
+
+
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
 });
