@@ -52,6 +52,94 @@ app.get('/api/v1/followers/:artist_id', (request, response) => {
     .then(follower => !follower.length ? response.status(404).json({ error: 'User could not be found.' }) : response.status(200).json(follower))
 })
 
+app.post('/api/v1/users', (request, response) => {
+  const user = request.body;
+
+  const keys = [
+    'name',
+    'username',
+    'tag',
+    'shortBio',
+    'followersCount'
+  ]
+
+  for (const requiredParameter of keys) {
+    if (!user[requiredParameter]) {
+      return response.status(422).send({
+        error: `Expected format: {'name': <string>, 'username': <string>, 'tag': <string>, 'shortBio': <string>, 'followersCount': <integer>}.  You are missing a ${requiredParameter} property.`
+      });
+    };
+  };
+
+  db('users').insert(user, '*')
+    .then(user => response.status(201).json(user))
+    .catch(error => response.status(500).json({ error }));
+})
+
+app.post('/api/v1/images', (request, response) => {
+  const image = request.body;
+
+  const keys = [
+    'url',
+    'user_id'
+  ]
+
+  for (const requiredParameter of keys) {
+    if (!image[requiredParameter]) {
+      return response.status(422).send({
+        error: `Expected format: {'url': <string>, 'user_id': <integer>}.  You are missing a ${requiredParameter} property.`
+      });
+    };
+  };
+
+  db('images').insert(image, '*')
+    .then(image => response.status(201).json(image))
+    .catch(error => response.status(500).json({ error }));
+});
+
+app.post('/api/v1/comments', (request, response) => {
+  const comment = request.body;
+
+  const keys = [
+    'comment',
+    'user_id',
+    'image_id'
+  ]
+
+  for (const requiredParameter of keys) {
+    if (!comment[requiredParameter]) {
+      return response.status(422).send({
+        error: `Expected format: {'comment': <string>, 'user_id': <integer>, 'image_id': <integer>}.  You are missing a ${requiredParameter} property.`
+      });
+    };
+  };
+
+  db('comments').insert(comment, '*')
+    .then(comment => response.status(201).json(comment))
+    .catch(error => response.status(500).json({ error }));
+});
+
+app.post('/api/v1/followers', (request, response) => {
+  const follower = request.body;
+
+  const keys = [
+    'follower_id',
+    'artist_id'
+  ]
+
+  for (const requiredParameter of keys) {
+    if (!follower[requiredParameter]) {
+      return response.status(422).send({
+        error: `Expected format: {'follower_id': <integer>, 'artist_id': <integer>}.  You are missing a ${requiredParameter} property.`
+      });
+    };
+  };
+
+  db('followers').insert(follower, '*')
+    .then(follower => response.status(201).json(follower))
+    .catch(error => response.status(500).json({ error }));
+});
+
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
 });
