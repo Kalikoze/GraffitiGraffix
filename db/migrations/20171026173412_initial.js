@@ -6,7 +6,6 @@ exports.up = (knex, Promise) => {
       table.string('username').unique();
       table.string('tag');
       table.string('shortBio');
-      table.integer('followersCount');
       table.timestamps(true, true);
     }),
 

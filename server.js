@@ -60,13 +60,12 @@ app.post('/api/v1/users', (request, response) => {
     'username',
     'tag',
     'shortBio',
-    'followersCount'
   ]
 
   for (const requiredParameter of keys) {
     if (!user[requiredParameter]) {
       return response.status(422).send({
-        error: `Expected format: {'name': <string>, 'username': <string>, 'tag': <string>, 'shortBio': <string>, 'followersCount': <integer>}.  You are missing a ${requiredParameter} property.`
+        error: `Expected format: {'name': <string>, 'username': <string>, 'tag': <string>, 'shortBio': <string>}.  You are missing a ${requiredParameter} property.`
       });
     };
   };
@@ -169,6 +168,47 @@ app.delete('/api/v1/followers/:id', (request, response) => {
 
   db('followers').where(id).del()
     .then(length => length ? response.sendStatus(204) : response.status(404).send({ error: `No follower to delete with id of ${id.id}`}))
+    .catch(error => response.status(500).json({error}));
+})
+
+app.patch('/api/v1/users/:id', (request, response) => {
+  const id = request.params;
+  const keys = ['name', 'username', 'tag', 'shortBio'];
+
+  for (const requiredParameter of keys) {
+    if (!request.body[requiredParameter]) {
+      return response.status(422).send({
+        error: `Expected format: {'name': <string>, 'username': <string>, 'tag': <string>, 'shortBio': <string>}.  You are missing a ${requiredParameter} property.`
+      });
+    }
+  }
+
+  db('users').where(id).update(request.body, '*')
+    .then(update => {
+      if (!update.length) {
+        response.status(404).json({ error: `Cannot find user with id of ${id.id}`})
+      }
+      response.status(200).json(update[0])
+    })
+    .catch(error => response.status(500).json({error}));
+})
+
+app.patch('/api/v1/comments/:id', (request, response) => {
+  const id = request.params;
+
+  if (!request.body['comment']) {
+    return response.status(422).send({
+      error: `Expected format: {'comment': <string>}.  You are missing a comment property.`
+    });
+  }
+
+  db('comments').where(id).update(request.body, '*')
+    .then(update => {
+      if (!update.length) {
+        response.status(404).json({ error: `Cannot find comment with id of ${id.id}`})
+      }
+      response.status(200).json(update[0])
+    })
     .catch(error => response.status(500).json({error}));
 })
 
