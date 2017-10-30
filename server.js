@@ -156,6 +156,15 @@ app.delete('/api/v1/images/:id', (request, response) => {
     .catch(error => response.status(500).json({error}));
 })
 
+app.delete('/api/v1/comments/:id', (request, response) => {
+  const id = request.params;
+
+  db('comments').where(id).del()
+    .then(length => length ? response.sendStatus(204) : response.status(404).send({ error: `No comment to delete with id of ${id.id}`}))
+    .catch(error => response.status(500).json({error}));
+})
+
+
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
 });
