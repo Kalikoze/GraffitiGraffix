@@ -17,8 +17,13 @@ export default class Navigation extends Component {
       .then(parsedResponse => handleUIDCheck(parsedResponse))
   }
 
-  handleUIDCheck() {
-    
+  handleUIDCheck(response) {
+    if (response.error) {
+      //send user to another page that would prompt them to make choose a username, add a shortBio, add a tag (Add name from google)
+      //create account (response.google_uid)
+      console.log(response.error);
+    }
+    //grab user data and put in store as loggedInUser
   }
 
   sendSignInData() {
@@ -26,14 +31,6 @@ export default class Navigation extends Component {
       .then(response => {
         console.log('response', response.user.uid);
         this.fetchUID(response.user.uid)
-        //make a fetch call to user database for user info using response.user.uid
-
-
-          // ${response.user.uid}
-        //if that uid is not found (response.error), we can send user to another page that would prompt them to make choose a username, add a shortBio, add a tag (Add name from google)
-        //store response.user.uid with this data
-
-        //grab user data and put in store as loggedInUser
       })
   }
 

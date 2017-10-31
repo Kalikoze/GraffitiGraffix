@@ -39,7 +39,7 @@ app.get('/api/v1/users/auth/:google_uid', (request, response) => {
   const google_uid = request.params;
 
   return db('users').where(google_uid).select()
-    .then(user => !user.length ? response.status(404).json({ error: 'Google UID could not be found.' }) : response.status(200).json(user[0]))
+    .then(user => !user.length ? response.status(404).json({ error: 'Google UID could not be found.', google_uid }) : response.status(200).json(user[0]))
 })
 
 app.get('/api/v1/images', (request, response) => {
