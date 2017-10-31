@@ -24,6 +24,7 @@ export default class Navigation extends Component {
       console.log(response.error);
     }
     //grab user data and put in store as loggedInUser
+    //create action to do this
   }
 
   sendSignInData() {
