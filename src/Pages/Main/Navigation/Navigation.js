@@ -11,14 +11,28 @@ export default class Navigation extends Component {
     };
   }
 
+  fetchUID(googleUID) {
+    fetch(`http://localhost:3001/api/v1/users/auth/${googleUID}`)
+      .then(response => response.json())
+      .then(parsedResponse => handleUIDCheck(parsedResponse))
+  }
+
+  handleUIDCheck() {
+    
+  }
+
   sendSignInData() {
     signIn()
       .then(response => {
         console.log('response', response.user.uid);
+        this.fetchUID(response.user.uid)
         //make a fetch call to user database for user info using response.user.uid
-        //if that uid is not found, we can send user to another page that would prompt them to make choose a username, add a shortBio, add a tag (Add name from google)
+
+
+          // ${response.user.uid}
+        //if that uid is not found (response.error), we can send user to another page that would prompt them to make choose a username, add a shortBio, add a tag (Add name from google)
         //store response.user.uid with this data
-        
+
         //grab user data and put in store as loggedInUser
       })
   }
