@@ -1,6 +1,7 @@
 .main-section {
   background-color: none;
   display: flex;
+  height: 100vh;
   justify-content: center;
 }
 
@@ -23,4 +24,8 @@
 
 .artists .main-section-image {
   object-fit: cover;
+}
+
+.whats-hot img {
+  object-fit: contain;
 }
