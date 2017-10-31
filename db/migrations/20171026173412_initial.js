@@ -6,6 +6,7 @@ exports.up = (knex, Promise) => {
       table.string('username').unique();
       table.string('tag');
       table.string('shortBio');
+      table.string('google_uid').unique();
       table.timestamps(true, true);
     }),
 
