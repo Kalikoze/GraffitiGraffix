@@ -39,16 +39,16 @@ video {
   display: flex;
   align-items: center;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
   position: absolute;
   z-index: 0;
   background-color: rgba(0, 0, 0, 0.5);
   font-family: 'Tag-Type';
-  font-size: 13vw;
+  font-size: 11vw;
 }
 
 h1 {
-  margin: 0;
+  margin: 100px 0 0 0;
   text-shadow: 3px 3px rgb(56, 55, 55);
 }
 
