@@ -19,10 +19,7 @@ export default class Navigation extends Component {
   }
 
   handleUIDCheck(response) {
-    console.log('user', response);
     if (response.error) {
-      //send user to another page that would prompt them to make choose a username, add a shortBio, add a tag (Add name from google)
-      //create account (response.google_uid)
       this.props.storeCurrentUser(null);
     } else {
       this.props.storeCurrentUser(response);
@@ -35,16 +32,15 @@ export default class Navigation extends Component {
 
   signOutUser() {
     signOut().then(() => {
-      console.log('logout response');
-      this.props.storeCurrentUser(null);
+      this.props.storeCurrentUser({});
     });
   }
 
   render() {
     const { search } = this.state;
 
-    if(!this.props.currentUser) {
-      return <Redirect to='/signup'/>
+    if (!this.props.currentUser) {
+      return <Redirect to="/signup" />;
     }
 
     return (
@@ -64,7 +60,7 @@ export default class Navigation extends Component {
 
         <div className="nav-section">
           <NavLink to="/" className="whats-hot-link link">
-            `What's Hot`
+            What's Hot
           </NavLink>
         </div>
 

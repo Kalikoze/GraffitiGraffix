@@ -1,0 +1,94 @@
+.sign-up {
+  align-items: center;
+  background-image: url('./assets/sign-up-background.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+}
+
+.user-info {
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  height: 65vh;
+  justify-content: space-around;
+  width: 60%;
+}
+
+.username-container,
+.tag-container,
+.short-bio-container {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 28%;
+  width: 100%;
+}
+
+#username,
+#tag,
+#short-bio {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  border-bottom: 1px solid white;
+  color: white;
+  outline: none;
+  width: 60%;
+}
+
+#username,
+#tag {
+  font-size: 1.5vw;
+  height: 5%;
+  padding: 5px;
+}
+
+#short-bio {
+  border: 1px solid white;
+  font-size: 1.5vw;
+  height: 20%;
+  padding: 10px;
+}
+
+.short-bio-container label {
+  align-self: start;
+}
+
+.sign-up-button {
+  background: none;
+  border: 1px solid white;
+  box-shadow: inset 0px 0px 10px 0px white;
+  color: white;
+  font-size: 2vw;
+  margin-bottom: 30px;
+  outline: none;
+  padding: 10px;
+  width: 30%;
+}
+
+.sign-up-button:disabled,
+.sign-up-button:disabled:hover {
+  border: 1px solid red;
+  box-shadow: inset 0px 0px 12px 0px red;
+  color: red;
+  cursor: default;
+}
+
+.sign-up-button:hover {
+  border: 1px solid green;
+  box-shadow: inset 0px 0px 12px 0px green;
+  color: green;
+  cursor: pointer;
+  transition: .5s;
+}
+
+label {
+  color: white;
+  margin: 0px 30px;
+  text-align: left;
+  margin-left: 0;
+}
