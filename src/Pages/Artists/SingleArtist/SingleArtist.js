@@ -1,8 +1,8 @@
 import React from 'react';
 import './SingleArtist.css';
 
-const SingleArtist = ({ id, name, tag, latestImages, shortBio, followersCount }) => {
-  const images = latestImages.map((url, i) => <img className='single-artist-image' key={i} src={url} alt="latest images"/>);
+const SingleArtist = ({ id, name, tag, latestImages, shortBio }) => {
+  const images = latestImages.map((img, i) => <img className='single-artist-image' key={i} src={img.url} alt="latest images"/>);
 
   return (
     <article className='l-single-artist'>
