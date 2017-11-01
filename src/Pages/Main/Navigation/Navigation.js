@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import firebase, { signIn, signOut } from '../../../firebase.js';
 import './Navigation.css';
 
@@ -12,7 +12,7 @@ export default class Navigation extends Component {
   }
 
   fetchUID(googleUID) {
-    fetch(`http://localhost:3001/api/v1/users/auth/666`)
+    fetch(`http://localhost:3001/api/v1/users/auth/${googleUID}`)
       .then(response => response.json())
       .then(parsedResponse => this.handleUIDCheck(parsedResponse))
       .catch(error => console.log(error));
@@ -23,8 +23,7 @@ export default class Navigation extends Component {
     if (response.error) {
       //send user to another page that would prompt them to make choose a username, add a shortBio, add a tag (Add name from google)
       //create account (response.google_uid)
-      return this.props.storeCurrentUser(null);
-      console.log(response.error);
+      this.props.storeCurrentUser(null);
     } else {
       this.props.storeCurrentUser(response);
     }
@@ -44,6 +43,10 @@ export default class Navigation extends Component {
   render() {
     const { search } = this.state;
 
+    if(!this.props.currentUser) {
+      return <Redirect to='/signup'/>
+    }
+
     return (
       <nav>
         <input
@@ -61,7 +64,7 @@ export default class Navigation extends Component {
 
         <div className="nav-section">
           <NavLink to="/" className="whats-hot-link link">
-            What's Hot
+            `What's Hot`
           </NavLink>
         </div>
 

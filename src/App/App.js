@@ -4,6 +4,7 @@ import './App.css';
 import { Route } from 'react-router-dom';
 import Artists from '../Pages/Artists/Artists/Artists';
 import Navigation from '../containers/NavigationContainer';
+import SignUp from '../Pages/SignUp/SignUp';
 
 class App extends Component {
   render() {
@@ -12,6 +13,7 @@ class App extends Component {
         <Navigation />
         <Route exact path="/" component={Main} />
         <Route exact path="/artists" component={Artists} />
+        <Route exact path='/signup' component={SignUp} />
       </div>
     );
   }
