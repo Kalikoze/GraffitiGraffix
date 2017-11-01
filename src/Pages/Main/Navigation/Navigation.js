@@ -12,6 +12,16 @@ class Navigation extends Component {
     };
   }
 
+  componentDidMount() {
+    const storageKeys = Object.keys(localStorage);
+    const firebaseKey = storageKeys.filter(key => key.includes('firebase'));
+
+    if (firebaseKey.length) {
+      const parsedUser = JSON.parse(localStorage.getItem(firebaseKey[0]));
+      this.fetchUID(parsedUser.uid);
+    }
+  }
+
   fetchUID(googleUID) {
     fetch(`http://localhost:3001/api/v1/users/auth/${googleUID}`)
       .then(response => response.json())
@@ -28,6 +38,7 @@ class Navigation extends Component {
   }
 
   sendSignInData() {
+    localStorage.clear();
     signIn().then(response => this.fetchUID(response.user.uid));
   }
 
@@ -37,10 +48,18 @@ class Navigation extends Component {
     });
   }
 
+  signInSignOut() {
+    const { currentUser } = this.props;
+
+    currentUser.id ? this.signOutUser() : this.sendSignInData()
+  }
+
   render() {
     const { search } = this.state;
+    const { currentUser } = this.props
+    const userStatus = currentUser.id ? 'Sign Out' : 'Sign In'
 
-    if (!this.props.currentUser) {
+    if (!currentUser) {
       return <Redirect to="/signup" />;
     }
 
@@ -61,7 +80,7 @@ class Navigation extends Component {
 
         <div className="nav-section">
           <NavLink to="/" className="whats-hot-link link">
-            What's Hot
+            {"What's Hot"}
           </NavLink>
         </div>
 
@@ -75,18 +94,9 @@ class Navigation extends Component {
           <NavLink
             to="/"
             className="sign-up-link link"
-            onClick={() => this.sendSignInData()}
+            onClick={() => this.signInSignOut()}
           >
-            Sign Up
-          </NavLink>
-        </div>
-        <div className="nav-section">
-          <NavLink
-            to="/"
-            className="sign-up-link link"
-            onClick={() => this.signOutUser()}
-          >
-            Sign Out
+            {userStatus}
           </NavLink>
         </div>
       </nav>
