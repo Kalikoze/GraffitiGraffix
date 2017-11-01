@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { storeCurrentUser } from '../actions/index';
-import Navigation from '../Pages/Main/Navigation/Navigation';
+import { storeCurrentUser, postNewUser } from '../actions/index';
 import { bindActionCreators } from 'redux';
 
 const mapStateToProps = state => {
@@ -9,7 +8,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ storeCurrentUser: storeCurrentUser }, dispatch);
+  return bindActionCreators({ storeCurrentUser, postNewUser }, dispatch);
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Navigation);
+export default connect(mapStateToProps, mapDispatchToProps);
