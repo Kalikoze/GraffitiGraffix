@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { NavLink, Redirect } from 'react-router-dom';
 import firebase, { signIn, signOut } from '../../../firebase.js';
 import './Navigation.css';
+import NavigationContainer from '../../../containers/NavigationContainer';
 
-export default class Navigation extends Component {
+class Navigation extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -92,3 +93,5 @@ export default class Navigation extends Component {
     );
   }
 }
+
+export default NavigationContainer(Navigation);

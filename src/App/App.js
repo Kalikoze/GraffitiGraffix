@@ -3,7 +3,7 @@ import Main from '../Pages/Main/Main/Main';
 import './App.css';
 import { Route } from 'react-router-dom';
 import Artists from '../Pages/Artists/Artists/Artists';
-import Navigation from '../containers/NavigationContainer';
+import Navigation from '../Pages/Main/Navigation/Navigation';
 import SignUp from '../Pages/SignUp/SignUp';
 
 class App extends Component {
@@ -13,7 +13,7 @@ class App extends Component {
         <Navigation />
         <Route exact path="/" component={Main} />
         <Route exact path="/artists" component={Artists} />
-        <Route exact path='/signup' component={SignUp} />
+        <Route exact path="/signup" component={SignUp} />
       </div>
     );
   }

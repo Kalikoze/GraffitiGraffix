@@ -1,14 +1,30 @@
 import React, { Component } from 'react';
 import './SignUp.css';
+import NavigationContainer from '../../containers/NavigationContainer';
 
-export default class SignUp extends Component {
-  constructor() {
-    super();
+class SignUp extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
       username: '',
       shortBio: '',
       tag: ''
     };
+  }
+
+  createUser(e) {
+    e.preventDefault();
+    const storedInfo = JSON.parse(
+      localStorage.getItem(Object.keys(localStorage)[0])
+    );
+
+    const googleInfo = {
+      name: storedInfo.displayName,
+      google_uid: storedInfo.uid
+    };
+
+    const newUser = Object.assign({}, this.state, googleInfo);
+    this.props.postNewUser(newUser);
   }
 
   render() {
@@ -17,13 +33,13 @@ export default class SignUp extends Component {
       <section className="sign-up">
         <form className="user-info">
           <div className="username-container">
-            <label for="username">Username:</label>
+            <label htmlFor="username">Username:</label>
             <input
               value={username}
               id="username"
               placeholder="Enter a username..."
-              minlength={3}
-              maxlength={15}
+              minLength={3}
+              maxLength={15}
               onChange={e => this.setState({ username: e.target.value })}
               required
             />
@@ -35,6 +51,7 @@ export default class SignUp extends Component {
               id="tag"
               placeholder="Enter a url for your tag..."
               onChange={e => this.setState({ tag: e.target.value })}
+              type="url"
             />
           </div>
           <div className="short-bio-container">
@@ -47,7 +64,7 @@ export default class SignUp extends Component {
             />
           </div>
 
-          <button className="sign-up-button" disabled>
+          <button onClick={e => this.createUser(e)} className="sign-up-button">
             Sign Up
           </button>
         </form>
@@ -55,3 +72,5 @@ export default class SignUp extends Component {
     );
   }
 }
+
+export default NavigationContainer(SignUp);
