@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Filter from '../Filter/Filter'
 import './Artists.css'
 import SingleArtist from '../SingleArtist/SingleArtist';
+import missingImg from '../assets/missing-img.png';
+import missingTag from '../assets/missing-tag.png';
 
 export default class Artists extends Component {
   constructor() {
@@ -31,6 +33,15 @@ export default class Artists extends Component {
   assignImages(artists, images) {
     return artists.map((artist, i) => {
       const artistImages = images.filter(image => image.user_id === artist.id);
+      for(let j = 0; j < 3; j++) {
+        if (!artistImages[j]) {
+          artistImages.push({url: missingImg})
+        }
+      }
+
+      if(!artist.tag) {
+        artist.tag = missingTag;
+      }
       return Object.assign({}, artist, {latestImages: artistImages.slice(0, 3)})
     })
   }
