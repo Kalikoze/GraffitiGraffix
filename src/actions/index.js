@@ -19,3 +19,28 @@ export const postNewUser = user => {
       .catch(error => console.log(error));
   };
 };
+
+export const storeClickedArtist = artist => {
+  return {
+    type: 'STORE_CLICKED_ARTIST',
+    artist
+  }
+}
+
+export const fetchArtistImages = artist => {
+  return dispatch => {
+    fetch(`http://localhost:3001/api/v1/images/${artist.id}`)
+      .then(response => response.json())
+      .then(parsedResponse => dispatch(storeClickedArtist(Object.assign({}, artist, {images: parsedResponse}))))
+      .catch(error => console.log(error));
+  }
+}
+
+export const fetchClickedArtist = id => {
+  return dispatch => {
+    fetch(`http://localhost:3001/api/v1/users/${id}`)
+      .then(response => response.json())
+      .then(parsedResponse => dispatch(fetchArtistImages(parsedResponse)))
+      .catch(error => console.log(error));
+  }
+};

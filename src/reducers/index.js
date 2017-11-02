@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import currentUser from './storeCurrentUser';
+import clickedArtist from './clickedArtist';
 
 const rootReducer = combineReducers({
-  currentUser
+  currentUser,
+  clickedArtist
 });
 
 export default rootReducer;

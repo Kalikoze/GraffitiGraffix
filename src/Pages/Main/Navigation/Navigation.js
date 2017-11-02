@@ -31,7 +31,7 @@ class Navigation extends Component {
 
   handleUIDCheck(response) {
     if (response.error) {
-      this.props.storeCurrentUser(null);
+      this.props.storeCurrentUser({});
     } else {
       this.props.storeCurrentUser(response);
     }
@@ -57,6 +57,7 @@ class Navigation extends Component {
   render() {
     const { search } = this.state;
     const { currentUser } = this.props
+    console.log(currentUser);
     const userStatus = currentUser.id ? 'Sign Out' : 'Sign In'
 
     if (!currentUser) {
