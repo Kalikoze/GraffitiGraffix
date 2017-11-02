@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Filter from '../Filter/Filter'
 import './Artists.css'
 import SingleArtist from '../SingleArtist/SingleArtist';
-import missingImg from '../assets/missing-img.png';
+import missingImg from '../assets/missingImg.jpg';
 import missingTag from '../assets/missing-tag.png';
 
 export default class Artists extends Component {
