@@ -1,0 +1,26 @@
+.artist-profile {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 8vh;
+  height: 92vh;
+  width: 100%;
+}
+
+.artist-info, .artist-stats {
+  /*border: 5px solid white;*/
+  color: white;
+  display: flex;
+  height: 50%;
+  width: 100%;
+}
+
+.artist-tag {
+  height: 20vw;
+  object-fit: fill;
+  width: 32vw;
+}
+
+.victory-chart {
+  height: 80%;
+}
