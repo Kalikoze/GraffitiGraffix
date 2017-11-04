@@ -24,7 +24,6 @@ class Profile extends Component {
 
   displayImages() {
     const { images } = this.state;
-    console.log(images)
 
     return images.map((image, i) => <img key={image.id} src={`${image.url}`} alt=''/>)
   }
