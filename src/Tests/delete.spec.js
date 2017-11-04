@@ -1,0 +1,95 @@
+const chai = require('chai');
+const should = chai.should();
+const chaiHttp = require('chai-http');
+const server = require('../../server');
+const environment = process.env.NODE_ENV || 'test';
+const configuration = require('../../knexfile')[environment];
+const database = require('knex')(configuration);
+
+chai.use(chaiHttp);
+
+describe('test', () => {
+	it('should run tests', () => {
+		let run = true;
+		run.should.equal(true);
+	});
+});
+
+describe('DELETE endpoints', () => {
+	beforeEach(done => {
+		database.migrate
+			.rollback()
+			.then(() => database.migrate.latest())
+			.then(() => done())
+			.catch(error => error);
+	});
+
+	beforeEach(done => {
+		database.seed
+			.run()
+			.then(() => {
+				done();
+			})
+			.catch(error => {
+				return error;
+			});
+	});
+
+	describe('DELETE /api/v1/users/:id', () => {
+		it('should delete a user with a given id', done => {
+			chai
+				.request(server)
+				.get('/api/v1/users')
+				.end((error, response) => {
+					console.log(response);
+					response.should.have.status(200);
+					response.body.length.should.equal(3);
+
+					chai
+						.request(server)
+						.delete('/api/v1/users/1')
+						.end((error, response) => {
+							response.should.have.status(204);
+
+							chai
+								.request(server)
+								.get('/api/v1/users')
+								.end((error, response) => {
+									response.should.have.status(200);
+									response.body.length.should.equal(2);
+									done();
+								});
+						});
+				});
+		});
+
+
+    it('should not delete a user if no id is found', done => {
+      chai
+				.request(server)
+				.get('/api/v1/users')
+				.end((error, response) => {
+					console.log(response);
+					response.should.have.status(200);
+					response.body.length.should.equal(3);
+
+					chai
+						.request(server)
+						.delete('/api/v1/users/4')
+						.end((error, response) => {
+							response.should.have.status(404);
+              response.body[0].error.should.equal('No user to delete with id of $4')
+
+							chai
+								.request(server)
+								.get('/api/v1/users')
+								.end((error, response) => {
+									response.should.have.status(200);
+									response.body.length.should.equal(3);
+									done();
+								});
+						});
+				});
+    })
+	});
+});
