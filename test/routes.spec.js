@@ -58,4 +58,39 @@ describe('API Routes', () => {
       });
     });
   });
+
+  describe('GET /api/v1/users/:id', () => {
+    it('should get only one user', done => {
+      const mockData = {
+        id: 1,
+        name: 'Travis Rollins',
+        username: 'Kalikoze',
+        tag:
+          'https://s-media-cache-ak0.pinimg.com/originals/9f/65/12/9f6512d4f5787662de0551654a2aec42.jpg',
+        shortBio:
+          'Travis was born from the boiling hot liquid plains of Kansas. You can see his tags all across the Western Hemisphere.',
+        google_uid: '1a2b3c'
+      }
+
+      chai.request(server)
+      .get('/api/v1/users/1')
+      .end((error, response) => {
+        response.should.have.status(200);
+        response.should.be.json;
+        response.body.should.be.a('object');
+        response.body.should.include(mockData);
+        done();
+      });
+    });
+
+    it('should return a 404 error if the user does not exist', done => {
+      chai.request(server)
+      .get('/api/v1/users/4')
+      .end((error, response) => {
+        response.should.have.status(404);
+        response.body.error.should.equal('User could not be found.')
+        done();
+      });
+    });
+  });
 });
