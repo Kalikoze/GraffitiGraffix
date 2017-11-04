@@ -171,6 +171,23 @@ describe('DELETE endpoints', () => {
 				});
 		});
 
+    it('should delete comments if an image is deleted', done => {
+      chai
+        .request(server)
+        .delete('/api/v1/images/1')
+        .end((error, response) => {
+          response.should.have.status(204);
+
+          chai
+            .request(server)
+            .get('/api/v1/comments/1')
+            .end((error, response) => {
+              response.should.have.status(404);
+              response.body[0].error.should.equal('Image could not be found.');
+              done();
+            })
+		});
+
 
     it('should not delete an image if no id is found', done => {
       chai
