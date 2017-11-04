@@ -41,7 +41,6 @@ describe('DELETE endpoints', () => {
 				.request(server)
 				.get('/api/v1/users')
 				.end((error, response) => {
-					console.log(response);
 					response.should.have.status(200);
 					response.body.length.should.equal(3);
 
@@ -61,6 +60,57 @@ describe('DELETE endpoints', () => {
 								});
 						});
 				});
+		});
+
+    it('should delete user comments if that user is deleted', done => {
+      chai
+        .request(server)
+        .delete('/api/v1/users/1')
+        .end((error, response) => {
+          response.should.have.status(204);
+
+          chai
+            .request(server)
+            .get('/api/v1/comments/1')
+            .end((error, response) => {
+              response.should.have.status(404);
+              response.body[0].error.should.equal('Image could not be found.');
+              done();
+            })
+		});
+
+    it('should delete user images if that user is deleted', done => {
+      chai
+        .request(server)
+        .delete('/api/v1/users/1')
+        .end((error, response) => {
+          response.should.have.status(204);
+
+          chai
+            .request(server)
+            .get('/api/v1/images/1')
+            .end((error, response) => {
+              response.should.have.status(404);
+              response.body[0].error.should.equal('No Images found for this user');
+              done();
+            })
+		});
+
+    it('should delete user followers if that user is deleted', done => {
+      chai
+        .request(server)
+        .delete('/api/v1/users/1')
+        .end((error, response) => {
+          response.should.have.status(204);
+
+          chai
+            .request(server)
+            .get('/api/v1/followers/1')
+            .end((error, response) => {
+              response.should.have.status(404);
+              response.body[0].error.should.equal('User could not be found.');
+              done();
+            })
 		});
 
 
