@@ -2,6 +2,10 @@
   "name": "graffitigraffix",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha --exit",
+    "start": "node server.js"
+  },
   "dependencies": {
     "body-parser": "^1.18.2",
     "chai": "^4.1.2",
@@ -30,11 +34,5 @@
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.0",
     "victory": "^0.24.0"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
   }
 }
