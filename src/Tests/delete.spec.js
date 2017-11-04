@@ -208,4 +208,62 @@ describe('DELETE endpoints', () => {
 				});
     })
 	});
+
+  describe('DELETE /api/v1/followers/:id', () => {
+		it('should delete a follower with a given id', done => {
+			chai
+				.request(server)
+				.get('/api/v1/followers')
+				.end((error, response) => {
+					console.log(response);
+					response.should.have.status(200);
+					response.body.length.should.equal(3);
+
+					chai
+						.request(server)
+						.delete('/api/v1/followers/1')
+						.end((error, response) => {
+							response.should.have.status(204);
+
+							chai
+								.request(server)
+								.get('/api/v1/followers')
+								.end((error, response) => {
+									response.should.have.status(200);
+									response.body.length.should.equal(2);
+									done();
+								});
+						});
+				});
+		});
+
+
+    it('should not delete a follower if no id is found', done => {
+      chai
+				.request(server)
+				.get('/api/v1/followers')
+				.end((error, response) => {
+					console.log(response);
+					response.should.have.status(200);
+					response.body.length.should.equal(3);
+
+					chai
+						.request(server)
+						.delete('/api/v1/followers/4')
+						.end((error, response) => {
+							response.should.have.status(404);
+              response.body[0].error.should.equal('No follower to delete with id of $4')
+
+							chai
+								.request(server)
+								.get('/api/v1/followers')
+								.end((error, response) => {
+									response.should.have.status(200);
+									response.body.length.should.equal(3);
+									done();
+								});
+						});
+				});
+    })
+	});
 });
