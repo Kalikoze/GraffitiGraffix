@@ -12,7 +12,9 @@ class Profile extends Component {
     this.state = {
       images: [],
       data: [],
-      addImage: false
+      followers: [],
+      addImage: false,
+      followStatus: false,
     };
     this.addImage = this.addImage.bind(this)
   }
@@ -33,6 +35,7 @@ class Profile extends Component {
     })
     .then(response => response.json())
     .then(parsedResponse => this.addImageToState(parsedResponse[0]))
+    .catch(error => console.log({ error }))
   }
 
   addImageToState(image) {
@@ -47,6 +50,11 @@ class Profile extends Component {
     fetch(`http://localhost:3001/api/v1/images/${clickedArtist.id}`)
       .then(response => response.json())
       .then(images => this.setState({ images }));
+
+      fetch(`http://localhost:3001/api/v1/followers/${clickedArtist.id}`)
+      .then(response => response.json())
+      .then(followers => this.setState({followers}))
+      .catch(error => console.log({ error }))
   }
 
   displayImages() {
@@ -66,15 +74,64 @@ class Profile extends Component {
     const { clickedArtist } = this.props;
 
     if (loggedInUserUID === clickedArtist.google_uid) {
-      console.log('same same');
       return true
     }
   }
 
+  followArtist() {
+    const { id: artist_id } = this.props.clickedArtist;
+    const { id: follower_id } = this.props.currentUser;
+
+    const postFollower = {
+      artist_id,
+      follower_id
+    }
+
+    fetch('http://localhost:3001/api/v1/followers', {
+      method: 'POST',
+      body: JSON.stringify(postFollower),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(follower => this.setState({followers: [...this.state.followers, follower[0]], followStatus: true}))
+    .catch(error => console.log({ error }))
+  }
+
+  unfollowArtist() {
+    const { id: artist_id } = this.props.clickedArtist;
+    const { id: follower_id } = this.props.currentUser;
+
+    fetch(`http://localhost:3001/api/v1/followers/${artist_id}/${follower_id}`, {
+      method: 'DELETE',
+      body: JSON.stringify({artist_id, follower_id}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(response => {
+      const newFollowers = this.state.followers.filter(follower => follower.artist_id !== artist_id && follower.follower_id !== follower_id) ;
+      this.setState({followers: newFollowers, followStatus: false});
+    })
+  }
+
+  checkIfFollowing() {
+    const { followers } = this.state;
+    const { id: artist_id } = this.props.clickedArtist;
+    const { id: follower_id } = this.props.currentUser;
+
+    const isFollowed = followers.findIndex(follower => follower.artist_id === artist_id && follower.follower_id === follower_id)
+
+    console.log(isFollowed)
+
+    isFollowed !== -1 ? this.unfollowArtist() : this.followArtist();
+  }
+
   render() {
     const { clickedArtist } = this.props;
-    const { addImage } = this.state;
+    const { addImage, followStatus } = this.state;
     const { tag, name, username, shortBio } = clickedArtist;
+    const followText = followStatus ? 'Unfollow' : 'Follow'
 
     return (
       <section className="artist-profile">
@@ -87,6 +144,7 @@ class Profile extends Component {
             <p>
               {name}
             </p>
+            {!this.verifyUserProfile() && <button onClick={() => this.checkIfFollowing()}>{followText}</button>}
           </article>
           <section className="artist-bio">
             <p>
