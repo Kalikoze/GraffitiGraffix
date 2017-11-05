@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './SignUp.css';
 import NavigationContainer from '../../containers/NavigationContainer';
+import { Redirect } from 'react-router-dom';
 
 class SignUp extends Component {
   constructor(props) {
@@ -8,8 +9,18 @@ class SignUp extends Component {
     this.state = {
       username: '',
       shortBio: '',
-      tag: ''
+      tag: '',
+      redirect: false
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('next', nextProps);
+    if (nextProps.currentUser.google_uid) {
+      this.setState({
+        redirect: true
+      })
+    }
   }
 
   createUser(e) {
@@ -18,17 +29,30 @@ class SignUp extends Component {
       localStorage.getItem(Object.keys(localStorage)[0])
     );
 
+    const { username, shortBio, tag } = this.state;
+
     const googleInfo = {
       name: storedInfo.displayName,
       google_uid: storedInfo.uid
     };
 
-    const newUser = Object.assign({}, this.state, googleInfo);
+    const stateInfo = {
+      username,
+      shortBio,
+      tag
+    }
+
+    const newUser = Object.assign({}, stateInfo, googleInfo);
     this.props.postNewUser(newUser);
   }
 
   render() {
-    const { username, shortBio, tag } = this.state;
+    const { username, shortBio, tag, redirect } = this.state;
+
+    if (redirect) {
+      return <Redirect to='/' />
+    }
+
     return (
       <section className="sign-up">
         <form className="user-info">

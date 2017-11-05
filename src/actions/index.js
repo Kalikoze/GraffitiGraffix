@@ -15,7 +15,7 @@ export const postNewUser = user => {
       }
     })
       .then(response => response.json())
-      .then(response => dispatch(storeCurrentUser(response)))
+      .then(response => dispatch(storeCurrentUser(response[0])))
       .catch(error => console.log(error));
   };
 };
