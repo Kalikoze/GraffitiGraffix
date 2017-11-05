@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ProfileContainer from '../../../containers/ProfileContainer';
+import SingleImage from '../SingleImage/SingleImage';
 import './Profile.css';
 import ReactDOM from 'react-dom';
 import * as V from 'victory';
@@ -58,6 +59,10 @@ class Profile extends Component {
       .catch(error => console.log({ error }));
   }
 
+  toggleImage(url, id) {
+    this.setState({ showImage: !this.state.showImage });
+  }
+
   displayImages() {
     let { images } = this.state;
 
@@ -67,6 +72,7 @@ class Profile extends Component {
 
     return images.map(image =>
       <img
+        onClick={() => this.toggleImage(image.url, image.id)}
         className="profile-imgs"
         key={image.id}
         src={`${image.url}`}
@@ -152,7 +158,7 @@ class Profile extends Component {
 
   render() {
     const { clickedArtist } = this.props;
-    const { addImage, followStatus } = this.state;
+    const { addImage, followStatus, showImage } = this.state;
     const { tag, name, username, shortBio } = clickedArtist;
     const followText = followStatus ? 'Unfollow' : 'Follow';
 
@@ -225,6 +231,7 @@ class Profile extends Component {
             </button>}
           {addImage && <AddImage addImage={this.addImage} />}
         </section>
+        {showImage && <SingleImage />}
       </section>
     );
   }
