@@ -51,6 +51,7 @@ describe('Main component', () => {
     const mainSectionProps = Object.keys(
       wrapper.find(MainSection).first().props()
     );
+
     expect(mainSectionProps.includes('src'));
     expect(mainSectionProps.includes('title'));
     expect(mainSectionProps.includes('articleClass'));
