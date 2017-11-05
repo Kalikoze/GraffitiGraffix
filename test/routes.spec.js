@@ -15,7 +15,7 @@ describe('API Routes', () => {
     db.migrate.latest()
     .then(() => done())
     .catch(error => error)
-  })
+  });
 
   beforeEach(done => {
     db.seed.run()
@@ -88,7 +88,7 @@ describe('API Routes', () => {
       .get('/api/v1/users/4')
       .end((error, response) => {
         response.should.have.status(404);
-        response.body.error.should.equal('User could not be found.')
+        response.body.error.should.equal('User could not be found.');
         done();
       });
     });
@@ -195,7 +195,7 @@ describe('API Routes', () => {
       .get('/api/v1/images/3')
       .end((error, response) => {
         response.should.have.status(404);
-        response.body.error.should.equal('No images found for this user')
+        response.body.error.should.equal('No images found for this user');
         done();
       });
     });
@@ -228,7 +228,7 @@ describe('API Routes', () => {
       .get('/api/v1/comments/2')
       .end((error, response) => {
         response.should.have.status(404);
-        response.body.error.should.equal('Comments for this image could not be found.')
+        response.body.error.should.equal('Comments for this image could not be found.');
         done();
       });
     });
@@ -303,7 +303,7 @@ describe('API Routes', () => {
       .send(mockData)
       .end((error, response) => {
         response.should.have.status(422);
-        response.body.error.should.equal(`Expected format: {'name': <string>, 'username': <string>, 'tag': <string>, 'shortBio': <string>, 'google_uid': <string>}.  You are missing a tag property.`)
+        response.body.error.should.equal(`Expected format: {'name': <string>, 'username': <string>, 'tag': <string>, 'shortBio': <string>, 'google_uid': <string>}.  You are missing a tag property.`);
         done();
       });
     });
@@ -338,7 +338,7 @@ describe('API Routes', () => {
       })
       .end((error, response) => {
         response.should.have.status(422);
-        response.body.error.should.equal(`Expected format: {'url': <string>, 'user_id': <integer>}.  You are missing a url property.`)
+        response.body.error.should.equal(`Expected format: {'url': <string>, 'user_id': <integer>}.  You are missing a url property.`);
         done();
       });
     });
@@ -374,7 +374,41 @@ describe('API Routes', () => {
       })
       .end((error, response) => {
         response.should.have.status(422);
-        response.body.error.should.equal(`Expected format: {'comment': <string>, 'user_id': <integer>, 'image_id': <integer>}.  You are missing a user_id property.`)
+        response.body.error.should.equal(`Expected format: {'comment': <string>, 'user_id': <integer>, 'image_id': <integer>}.  You are missing a user_id property.`);
+        done();
+      });
+    });
+  });
+
+  describe('POST /api/v1/followers', () => {
+    it('should post a new follower', done => {
+      const mockData = {
+        id: 4,
+        follower_id: 3,
+        artist_id: 1
+      }
+
+      chai.request(server)
+      .post('/api/v1/followers')
+      .send(mockData)
+      .end((error, response) => {
+        response.should.have.status(201);
+        response.body.should.be.a('array');
+        response.body[0].should.include(mockData);
+        done();
+      });
+    });
+
+    it('should not post a new follower with missing parameters', done => {
+      chai.request(server)
+      .post('/api/v1/followers')
+      .send({
+        id: 4,
+        artist_id: 1
+      })
+      .end((error, response) => {
+        response.should.have.status(422);
+        response.body.error.should.equal(`Expected format: {'follower_id': <integer>, 'artist_id': <integer>}.  You are missing a follower_id property.`);
         done();
       });
     });
