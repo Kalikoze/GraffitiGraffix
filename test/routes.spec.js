@@ -160,4 +160,44 @@ describe('API Routes', () => {
       });
     });
   });
+
+  describe('GET /api/v1/images/:user_id', () => {
+    it('should return the images of a particular user', done => {
+      const mockData = [
+        {
+          id: 1,
+          url:
+            'http://i232.photobucket.com/albums/ee10/anthonyscaperrotta1225/graffiti-1.jpg',
+          user_id: 1
+        },
+        {
+          id: 2,
+          url:
+            'https://graffitidiplomacy.files.wordpress.com/2016/06/star-tag-graffiti-diplomacy.jpg?w=385&h=297',
+          user_id: 1
+        }
+      ]
+
+      chai.request(server)
+      .get('/api/v1/images/1')
+      .end((error, response) => {
+        response.should.have.status(200);
+        response.should.be.json;
+        response.body.should.be.a('array');
+        response.body[0].should.include(mockData[0]);
+        response.body[1].should.include(mockData[1]);
+        done();
+      });
+    });
+
+    it('should return a 404 status if user is not found', done => {
+      chai.request(server)
+      .get('/api/v1/images/3')
+      .end((error, response) => {
+        response.should.have.status(404);
+        response.body.error.should.equal('No images found for this user')
+        done();
+      });
+    });
+  });
 });
