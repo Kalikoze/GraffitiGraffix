@@ -200,4 +200,37 @@ describe('API Routes', () => {
       });
     });
   });
+
+  describe('GET /api/v1/comments/:image_id', () => {
+    it('should get the comments for an image', done => {
+      const mockData = {
+        id: 3,
+        comment: 'Dude bruh',
+        user_id: 1,
+        image_id: 1
+      }
+
+      chai.request(server)
+      .get('/api/v1/comments/1')
+      .end((error, response) => {
+        const index = response.body.findIndex(obj => obj.id === mockData.id);
+        response.should.have.status(200);
+        response.should.be.json;
+        response.body.should.be.a('array');
+        response.body.length.should.equal(3);
+        response.body[index].should.include(mockData);
+        done();
+      });
+    });
+
+    it('should return a 404 error if there are no comments for that image', done => {
+      chai.request(server)
+      .get('/api/v1/comments/2')
+      .end((error, response) => {
+        response.should.have.status(404);
+        response.body.error.should.equal('Comments for this image could not be found.')
+        done();
+      })
+    })
+  });
 });
