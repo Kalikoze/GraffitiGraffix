@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "NODE_ENV=test ./node_modules/.bin/mocha --exit",
-    "start": "node server.js"
+    "eject": "react-scripts eject"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
