@@ -18,11 +18,7 @@ app.use((req, res, next) => {
   );
   res.header(
     'Access-Control-Allow-Methods',
-    'GET',
-    'PUT',
-    'POST',
-    'DELETE',
-    'PATCH'
+    'GET, PUT, POST, DELETE, PATCH'
   );
   next();
 });
@@ -90,7 +86,7 @@ app.get('/api/v1/images/:user_id', (request, response) => {
 
 app.get('/api/v1/comments/:image_id', (request, response) => {
   const image_id = request.params;
-  
+
   return db('comments').where(image_id).select()
     .then(comment => !comment.length ? response.status(404).json({ error: 'Comments for this image could not be found.' }) : response.status(200).json(comment))
 })
@@ -236,11 +232,11 @@ app.delete('/api/v1/comments/:id', (request, response) => {
     .catch(error => response.status(500).json({ error }));
 });
 
-app.delete('/api/v1/followers/:id', (request, response) => {
-  const id = request.params;
+app.delete('/api/v1/followers/:artist_id/:follower_id', (request, response) => {
+  const { artist_id, follower_id } = request.params;
 
   db('followers')
-    .where(id)
+    .where({artist_id, follower_id})
     .del()
     .then(
       length =>

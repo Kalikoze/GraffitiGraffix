@@ -43,19 +43,17 @@ class Profile extends Component {
     })
   }
 
-  componentDidMount() {
-    fetch('http://localhost:3001/api/v1/followers')
-      .then(response => response.json())
-      .then(followers => this.setState({followers}))
-      .catch(error => console.log({ error }))
-  }
-
   componentWillReceiveProps(nextProps) {
     const { clickedArtist } = nextProps;
 
     fetch(`http://localhost:3001/api/v1/images/${clickedArtist.id}`)
       .then(response => response.json())
       .then(images => this.setState({ images }));
+
+      fetch(`http://localhost:3001/api/v1/followers/${clickedArtist.id}`)
+      .then(response => response.json())
+      .then(followers => this.setState({followers}))
+      .catch(error => console.log({ error }))
   }
 
   displayImages() {
@@ -96,8 +94,36 @@ class Profile extends Component {
       }
     })
     .then(response => response.json())
-    .then(follower => this.setState({followers: [...this.state.followers, follower]}))
+    .then(follower => this.setState({followers: [...this.state.followers, follower[0]]}))
     .catch(error => console.log({ error }))
+  }
+
+  unfollowArtist() {
+    const { id: artist_id } = this.props.clickedArtist;
+    const { id: follower_id } = this.props.currentUser;
+
+    fetch(`http://localhost:3001/api/v1/followers/${artist_id}/${follower_id}`, {
+      method: 'DELETE',
+      body: JSON.stringify({artist_id, follower_id}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(response => {
+      const newFollowers = this.state.followers.filter(follower => follower.artist_id !== artist_id && follower.follower_id !== follower_id) ;
+      this.setState({followers: newFollowers});
+    })
+  }
+
+  checkIfFollowing() {
+    const { followers } = this.state;
+    const { id: artist_id } = this.props.clickedArtist;
+    const { id: follower_id } = this.props.currentUser;
+
+    const isFollowed = followers.findIndex(follower => follower.artist_id === artist_id && follower.follower_id === follower_id)
+
+    console.log(isFollowed)
+
+    isFollowed !== -1 ? this.unfollowArtist() : this.followArtist();
   }
 
   render() {
@@ -116,7 +142,7 @@ class Profile extends Component {
             <p>
               {name}
             </p>
-            {!this.verifyUserProfile() && <button onClick={() => this.followArtist()}>Follow</button>}
+            {!this.verifyUserProfile() && <button onClick={() => this.checkIfFollowing()}>Follow</button>}
           </article>
           <section className="artist-bio">
             <p>
