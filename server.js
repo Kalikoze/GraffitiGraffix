@@ -59,7 +59,7 @@ app.get('/api/v1/comments/:image_id', (request, response) => {
   const image_id = request.params;
 
   return db('comments').where(image_id).select()
-    .then(comment => !comment.length ? response.status(404).json({ error: 'Image could not be found.' }) : response.status(200).json(comment))
+    .then(comment => !comment.length ? response.status(404).json({ error: 'Comments for this image could not be found.' }) : response.status(200).json(comment))
 })
 
 app.get('/api/v1/followers/:artist_id', (request, response) => {
