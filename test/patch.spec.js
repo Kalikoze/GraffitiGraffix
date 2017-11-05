@@ -35,7 +35,7 @@ describe('PATCH /api/v1/users/:id', () => {
       });
   });
 
-  it('should patch a user with a specific id', done => {
+  it.skip('should patch a user with a specific id', done => {
     chai.request(server).get('/api/v1/users/1').end((error, response) => {
       console.log('body 1', response.body);
       response.body.name.should.equal('tyler');
@@ -48,29 +48,47 @@ describe('PATCH /api/v1/users/:id', () => {
       .request(server)
       .patch('/api/v1/users/1')
       .send({
-        name: 'tyler',
-        username: 'neat',
+        name: 'Patched User',
+        username: 'ChangedUsername',
         tag: 'image.net',
-        shortBio: 'sweet'
+        shortBio: 'New bio'
       })
       .end((error, response) => {
         response.should.have.status(200);
         response.should.be.json;
-        response.body.should.be.a('object');
-        response.body.name.should.equal('tyler');
-        response.body.username.should.equal('neat');
+        response.body.name.should.equal('Patched User');
+        response.body.username.should.equal('ChangedUsername');
         response.body.tag.should.equal('image.net');
-        response.body.shortBio.should.equal('sweet');
+        response.body.shortBio.should.equal('New bio');
         done();
       });
 
     chai.request(server).get('/api/v1/users/1').end((error, response) => {
       console.log('body 2', response.body);
-      response.body.name.should.equal('tyler');
-      response.body.username.should.equal('neat');
+      response.body.name.should.equal('Patched User');
+      response.body.username.should.equal('ChangedUsername');
       response.body.tag.should.equal('image.net');
-      response.body.shortBio.should.equal('sweet');
+      response.body.shortBio.should.equal('New bio');
       done();
     });
+  });
+
+  it('should return the correct error if the request is missing a required key', done => {
+    chai
+      .request(server)
+      .patch('/api/v1/users/2')
+      .send({
+        username: 'NewUsername',
+        tag: 'updatedimage.com',
+        shortBio: 'This is my new bio.'
+      })
+      .end((error, response) => {
+        response.should.have.status(422);
+        response.should.be.json;
+        response.body.error.should.equal(
+          "Expected format: {'name': <string>, 'username': <string>, 'tag': <string>, 'shortBio': <string>}.  You are missing a name property."
+        );
+        done();
+      });
   });
 });
