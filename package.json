@@ -5,7 +5,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "NODE_ENV=test ./node_modules/.bin/mocha --exit",
+    "test-backend": "NODE_ENV=test ./node_modules/.bin/mocha --exit",
+    "test-frontend": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "dependencies": {
@@ -14,9 +15,11 @@
     "chai-http": "^3.0.0",
     "css-loader": "^0.28.7",
     "enzyme": "^3.1.0",
+    "enzyme-adapter-react-16": "^1.0.1",
     "express": "^4.16.2",
     "express-cors": "0.0.3",
     "firebase": "^4.6.0",
+    "jest": "^21.2.1",
     "knex": "^0.13.0",
     "mocha": "^4.0.1",
     "node-sass": "^4.5.3",
@@ -30,6 +33,7 @@
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.6",
     "react-scripts": "1.0.14",
+    "react-test-renderer": "^16.0.0",
     "redux": "^3.7.2",
     "redux-devtools": "^3.4.0",
     "redux-logger": "^3.0.6",
