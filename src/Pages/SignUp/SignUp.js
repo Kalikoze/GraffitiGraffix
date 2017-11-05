@@ -15,7 +15,6 @@ class SignUp extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('next', nextProps);
     if (nextProps.currentUser.google_uid) {
       this.setState({
         redirect: true
