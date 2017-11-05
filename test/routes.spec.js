@@ -17,7 +17,7 @@ describe('API Routes', () => {
     .catch(error => error)
   })
 
-  beforeEach((done) => {
+  beforeEach(done => {
     db.seed.run()
       .then(() => done())
       .catch(error => error);
@@ -263,4 +263,47 @@ describe('API Routes', () => {
       });
     });
   });
+
+  it('should post a new user', done => {
+    const mockData = {
+      id: 4,
+      name: 'Foo Bar',
+      username: 'BarFoo',
+      tag:
+        'https://fake-link.com',
+      shortBio:
+        'Foo Bar is FizzBuzz',
+      google_uid: '321ABC'
+    }
+
+    chai.request(server)
+    .post('/api/v1/users')
+    .send(mockData)
+    .end((error, response) => {
+      response.should.have.status(201);
+      response.body.should.be.a('array');
+      response.body[0].should.include(mockData);
+      done();
+    });
+  });
+
+  it('should not create a user with missing data', done => {
+    const mockData = {
+      id: 4,
+      name: 'Foo Bar',
+      username: 'BarFoo',
+      shortBio:
+        'Foo Bar is FizzBuzz',
+      google_uid: '321ABC'
+    }
+
+    chai.request(server)
+    .post('/api/v1/users')
+    .send(mockData)
+    .end((error, response) => {
+      response.should.have.status(422);
+      response.body.error.should.equal(`Expected format: {'name': <string>, 'username': <string>, 'tag': <string>, 'shortBio': <string>, 'google_uid': <string>}.  You are missing a tag property.`)
+      done();
+    })
+  })
 });
