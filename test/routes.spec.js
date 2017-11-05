@@ -340,7 +340,43 @@ describe('API Routes', () => {
         response.should.have.status(422);
         response.body.error.should.equal(`Expected format: {'url': <string>, 'user_id': <integer>}.  You are missing a url property.`)
         done();
+      });
+    });
+  });
+
+  describe('POST /api/v1/comments', () => {
+    it('should post a new comment', done => {
+      const mockData =   {
+        id: 4,
+        comment: 'Testing Foo Bar',
+        user_id: 1,
+        image_id: 2
+      }
+
+      chai.request(server)
+      .post('/api/v1/comments')
+      .send(mockData)
+      .end((error, response) => {
+        response.should.have.status(201);
+        response.body.should.be.a('array');
+        response.body[0].should.include(mockData);
+        done();
+      });
+    });
+
+    it('should not post a new comment with missing parameters', done => {
+      chai.request(server)
+      .post('/api/v1/comments')
+      .send({
+        id: 4,
+        comment: 'Testing Foo Bar',
+        image_id: 2
       })
-    })
+      .end((error, response) => {
+        response.should.have.status(422);
+        response.body.error.should.equal(`Expected format: {'comment': <string>, 'user_id': <integer>, 'image_id': <integer>}.  You are missing a user_id property.`)
+        done();
+      });
+    });
   });
 });
