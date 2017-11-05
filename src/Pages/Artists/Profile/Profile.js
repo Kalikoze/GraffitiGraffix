@@ -4,14 +4,41 @@ import './Profile.css';
 import ReactDOM from 'react-dom';
 import * as V from 'victory';
 import { VictoryChart, VictoryArea, VictoryTheme, VictoryStack } from 'victory';
+import AddImage from '../AddImage/AddImage';
 
 class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
       images: [],
-      data: []
+      data: [],
+      addImage: false
     };
+    this.addImage = this.addImage.bind(this)
+  }
+
+  addImage(url) {
+    const { id } = this.props.currentUser;
+    const image = {
+      url,
+      user_id: id
+    }
+
+    fetch('http://localhost:3001/api/v1/images', {
+      method: 'POST',
+      body: JSON.stringify(image),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then(response => response.json())
+    .then(parsedResponse => this.addImageToState(parsedResponse[0]))
+  }
+
+  addImageToState(image) {
+    this.setState({
+      images: [...this.state.images, image]
+    })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -29,7 +56,7 @@ class Profile extends Component {
       images = [];
     }
 
-    return images.map(image => < img className='profile-imgs' key={image.id} src={`${image.url}`} alt="" />);
+    return images.map(image => <img className='profile-imgs' key={image.id} src={`${image.url}`} alt="" />);
   }
 
   verifyUserProfile() {
@@ -46,6 +73,7 @@ class Profile extends Component {
 
   render() {
     const { clickedArtist } = this.props;
+    const { addImage } = this.state;
     const { tag, name, username, shortBio } = clickedArtist;
 
     return (
@@ -107,7 +135,8 @@ class Profile extends Component {
         </section>
         <section className="artist-profile-images">
           {this.displayImages()}
-          {this.verifyUserProfile() && <button>Add Image</button>}
+          {this.verifyUserProfile() && <button onClick={() => this.setState({ addImage: true })}>Add Image</button>}
+          {addImage && <AddImage addImage={this.addImage} />}
         </section>
       </section>
     );
