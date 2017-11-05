@@ -18,7 +18,6 @@ describe('App component', () => {
   });
 
   it('should render a Navigation component', () => {
-    console.log(wrapper.debug());
     expect(wrapper.find(Navigation).length).toEqual(1);
   });
 
