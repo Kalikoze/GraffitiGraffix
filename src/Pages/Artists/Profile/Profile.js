@@ -32,6 +32,18 @@ class Profile extends Component {
     return images.map(image => < img className='profile-imgs' key={image.id} src={`${image.url}`} alt="" />);
   }
 
+  verifyUserProfile() {
+    const loggedInUserUID = JSON.parse(
+      localStorage.getItem(Object.keys(localStorage)[0])
+    ).uid;
+    const { clickedArtist } = this.props;
+
+    if (loggedInUserUID === clickedArtist.google_uid) {
+      console.log('same same');
+      return true
+    }
+  }
+
   render() {
     const { clickedArtist } = this.props;
     const { tag, name, username, shortBio } = clickedArtist;
@@ -95,6 +107,7 @@ class Profile extends Component {
         </section>
         <section className="artist-profile-images">
           {this.displayImages()}
+          {this.verifyUserProfile() && <button>Add Image</button>}
         </section>
       </section>
     );

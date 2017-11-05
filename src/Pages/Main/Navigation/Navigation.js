@@ -8,7 +8,8 @@ class Navigation extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: ''
+      search: '',
+      signInClicked: false
     };
   }
 
@@ -51,15 +52,19 @@ class Navigation extends Component {
   signInSignOut() {
     const { currentUser } = this.props;
 
-    currentUser.id ? this.signOutUser() : this.sendSignInData()
+    this.setState({
+      signInClicked: true
+    }, () => {
+      currentUser.id ? this.signOutUser() : this.sendSignInData()
+    })
   }
 
   render() {
-    const { search } = this.state;
+    const { search, signInClicked } = this.state;
     const { currentUser } = this.props
-    const userStatus = currentUser.id ? 'Sign Out' : 'Sign In'
+    const userStatus = currentUser.id ? 'Sign Out' : 'Sign In';
 
-    if (!currentUser) {
+    if (!currentUser.id && signInClicked) {
       return <Redirect to="/signup" />;
     }
 
