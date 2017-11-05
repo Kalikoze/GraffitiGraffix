@@ -128,4 +128,36 @@ describe('API Routes', () => {
       });
     });
   });
+
+  describe('GET /api/v1/images', () => {
+    it('should get all of the images', done => {
+      const mockData =   {
+        id: 3,
+        url:
+          'http://milak.co.uk/wp-content/uploads/2013/11/tumblr_mvjr77JXYP1r55y3po1_1280.jpg',
+        user_id: 2
+      }
+
+      chai.request(server)
+      .get('/api/v1/images')
+      .end((error, response) => {
+        const index = response.body.findIndex(obj => obj.id === mockData.id);
+        response.should.have.status(200);
+        response.should.be.json;
+        response.body.should.be.a('array');
+        response.body.length.should.equal(3);
+        response.body[index].should.include(mockData);
+        done();
+      });
+    });
+
+    it('should return a 404 status if the url is invalid', done => {
+      chai.request(server)
+      .get('/api/v1/foo')
+      .end((error, response) => {
+        response.should.have.status(404);
+        done();
+      });
+    });
+  });
 });
