@@ -19,6 +19,7 @@ class Profile extends Component {
       showImage: false
     };
     this.addImage = this.addImage.bind(this);
+    this.toggleImage = this.toggleImage.bind(this);
   }
 
   addImage(url) {
@@ -60,6 +61,7 @@ class Profile extends Component {
   }
 
   toggleImage(url, id) {
+    this.props.storeClickedImage(url, id);
     this.setState({ showImage: !this.state.showImage });
   }
 
@@ -231,7 +233,7 @@ class Profile extends Component {
             </button>}
           {addImage && <AddImage addImage={this.addImage} />}
         </section>
-        {showImage && <SingleImage />}
+        {showImage && <SingleImage toggleImage={this.toggleImage} />}
       </section>
     );
   }

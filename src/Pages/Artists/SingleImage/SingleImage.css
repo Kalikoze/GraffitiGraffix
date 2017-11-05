@@ -4,3 +4,8 @@
   position: absolute;
   width: 500px;
 }
+
+img {
+  height: 80%;
+  width: 100%;
+}
