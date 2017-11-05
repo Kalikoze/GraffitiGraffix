@@ -253,7 +253,7 @@ describe('API Routes', () => {
       });
     });
 
-    it('should return a 404 error if artist cannot be found', () => {
+    it('should return a 404 error if artist cannot be found', done => {
       chai.request(server)
       .get('/api/v1/followers/4')
       .end((error, response) => {
@@ -264,46 +264,83 @@ describe('API Routes', () => {
     });
   });
 
-  it('should post a new user', done => {
-    const mockData = {
-      id: 4,
-      name: 'Foo Bar',
-      username: 'BarFoo',
-      tag:
-        'https://fake-link.com',
-      shortBio:
-        'Foo Bar is FizzBuzz',
-      google_uid: '321ABC'
-    }
+  describe('POST /api/v1/users', () => {
+    it('should post a new user', done => {
+      const mockData = {
+        id: 4,
+        name: 'Foo Bar',
+        username: 'BarFoo',
+        tag:
+          'https://fake-link.com',
+        shortBio:
+          'Foo Bar is FizzBuzz',
+        google_uid: '321ABC'
+      }
 
-    chai.request(server)
-    .post('/api/v1/users')
-    .send(mockData)
-    .end((error, response) => {
-      response.should.have.status(201);
-      response.body.should.be.a('array');
-      response.body[0].should.include(mockData);
-      done();
+      chai.request(server)
+      .post('/api/v1/users')
+      .send(mockData)
+      .end((error, response) => {
+        response.should.have.status(201);
+        response.body.should.be.a('array');
+        response.body[0].should.include(mockData);
+        done();
+      });
+    });
+
+    it('should not create a user with missing data', done => {
+      const mockData = {
+        id: 4,
+        name: 'Foo Bar',
+        username: 'BarFoo',
+        shortBio:
+          'Foo Bar is FizzBuzz',
+        google_uid: '321ABC'
+      }
+
+      chai.request(server)
+      .post('/api/v1/users')
+      .send(mockData)
+      .end((error, response) => {
+        response.should.have.status(422);
+        response.body.error.should.equal(`Expected format: {'name': <string>, 'username': <string>, 'tag': <string>, 'shortBio': <string>, 'google_uid': <string>}.  You are missing a tag property.`)
+        done();
+      });
     });
   });
 
-  it('should not create a user with missing data', done => {
-    const mockData = {
-      id: 4,
-      name: 'Foo Bar',
-      username: 'BarFoo',
-      shortBio:
-        'Foo Bar is FizzBuzz',
-      google_uid: '321ABC'
-    }
+  describe('POST /api/v1/images', () => {
+    it('should post a new image', done => {
+      const mockData = {
+        id: 4,
+        url:
+          'http://fakeimage.com',
+        user_id: 2
+      }
 
-    chai.request(server)
-    .post('/api/v1/users')
-    .send(mockData)
-    .end((error, response) => {
-      response.should.have.status(422);
-      response.body.error.should.equal(`Expected format: {'name': <string>, 'username': <string>, 'tag': <string>, 'shortBio': <string>, 'google_uid': <string>}.  You are missing a tag property.`)
-      done();
+      chai.request(server)
+      .post('/api/v1/images')
+      .send(mockData)
+      .end((error, response) => {
+        response.should.have.status(201);
+        response.body.should.be.a('array');
+        response.body[0].should.include(mockData);
+        done();
+      });
+    });
+
+    it('should not post a new image with missing parameters', done => {
+      chai.request(server)
+      .post('/api/v1/images')
+      .send({
+        id: 4,
+        user_id: 2
+      })
+      .end((error, response) => {
+        response.should.have.status(422);
+        response.body.error.should.equal(`Expected format: {'url': <string>, 'user_id': <integer>}.  You are missing a url property.`)
+        done();
+      })
     })
-  })
+  });
 });
