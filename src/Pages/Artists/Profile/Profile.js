@@ -15,8 +15,9 @@ class Profile extends Component {
       followers: [],
       addImage: false,
       followStatus: false,
+      showImage: false
     };
-    this.addImage = this.addImage.bind(this)
+    this.addImage = this.addImage.bind(this);
   }
 
   addImage(url) {
@@ -24,24 +25,24 @@ class Profile extends Component {
     const image = {
       url,
       user_id: id
-    }
+    };
 
     fetch('http://localhost:3001/api/v1/images', {
       method: 'POST',
       body: JSON.stringify(image),
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       }
     })
-    .then(response => response.json())
-    .then(parsedResponse => this.addImageToState(parsedResponse[0]))
-    .catch(error => console.log({ error }))
+      .then(response => response.json())
+      .then(parsedResponse => this.addImageToState(parsedResponse[0]))
+      .catch(error => console.log({ error }));
   }
 
   addImageToState(image) {
     this.setState({
       images: [...this.state.images, image]
-    })
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -51,20 +52,27 @@ class Profile extends Component {
       .then(response => response.json())
       .then(images => this.setState({ images }));
 
-      fetch(`http://localhost:3001/api/v1/followers/${clickedArtist.id}`)
+    fetch(`http://localhost:3001/api/v1/followers/${clickedArtist.id}`)
       .then(response => response.json())
-      .then(followers => this.setState({followers}))
-      .catch(error => console.log({ error }))
+      .then(followers => this.setState({ followers }))
+      .catch(error => console.log({ error }));
   }
 
   displayImages() {
     let { images } = this.state;
 
-    if(images.error) {
+    if (images.error) {
       images = [];
     }
 
-    return images.map(image => <img className='profile-imgs' key={image.id} src={`${image.url}`} alt="" />);
+    return images.map(image =>
+      <img
+        className="profile-imgs"
+        key={image.id}
+        src={`${image.url}`}
+        alt=""
+      />
+    );
   }
 
   verifyUserProfile() {
@@ -74,7 +82,7 @@ class Profile extends Component {
     const { clickedArtist } = this.props;
 
     if (loggedInUserUID === clickedArtist.google_uid) {
-      return true
+      return true;
     }
   }
 
@@ -85,7 +93,7 @@ class Profile extends Component {
     const postFollower = {
       artist_id,
       follower_id
-    }
+    };
 
     fetch('http://localhost:3001/api/v1/followers', {
       method: 'POST',
@@ -94,25 +102,37 @@ class Profile extends Component {
         'Content-Type': 'application/json'
       }
     })
-    .then(response => response.json())
-    .then(follower => this.setState({followers: [...this.state.followers, follower[0]], followStatus: true}))
-    .catch(error => console.log({ error }))
+      .then(response => response.json())
+      .then(follower =>
+        this.setState({
+          followers: [...this.state.followers, follower[0]],
+          followStatus: true
+        })
+      )
+      .catch(error => console.log({ error }));
   }
 
   unfollowArtist() {
     const { id: artist_id } = this.props.clickedArtist;
     const { id: follower_id } = this.props.currentUser;
 
-    fetch(`http://localhost:3001/api/v1/followers/${artist_id}/${follower_id}`, {
-      method: 'DELETE',
-      body: JSON.stringify({artist_id, follower_id}),
-      headers: {
-        'Content-Type': 'application/json'
+    fetch(
+      `http://localhost:3001/api/v1/followers/${artist_id}/${follower_id}`,
+      {
+        method: 'DELETE',
+        body: JSON.stringify({ artist_id, follower_id }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
       }
-    }).then(response => {
-      const newFollowers = this.state.followers.filter(follower => follower.artist_id !== artist_id && follower.follower_id !== follower_id) ;
-      this.setState({followers: newFollowers, followStatus: false});
-    })
+    ).then(response => {
+      const newFollowers = this.state.followers.filter(
+        follower =>
+          follower.artist_id !== artist_id &&
+          follower.follower_id !== follower_id
+      );
+      this.setState({ followers: newFollowers, followStatus: false });
+    });
   }
 
   checkIfFollowing() {
@@ -120,9 +140,12 @@ class Profile extends Component {
     const { id: artist_id } = this.props.clickedArtist;
     const { id: follower_id } = this.props.currentUser;
 
-    const isFollowed = followers.findIndex(follower => follower.artist_id === artist_id && follower.follower_id === follower_id)
+    const isFollowed = followers.findIndex(
+      follower =>
+        follower.artist_id === artist_id && follower.follower_id === follower_id
+    );
 
-    console.log(isFollowed)
+    console.log(isFollowed);
 
     isFollowed !== -1 ? this.unfollowArtist() : this.followArtist();
   }
@@ -131,7 +154,7 @@ class Profile extends Component {
     const { clickedArtist } = this.props;
     const { addImage, followStatus } = this.state;
     const { tag, name, username, shortBio } = clickedArtist;
-    const followText = followStatus ? 'Unfollow' : 'Follow'
+    const followText = followStatus ? 'Unfollow' : 'Follow';
 
     return (
       <section className="artist-profile">
@@ -144,7 +167,10 @@ class Profile extends Component {
             <p>
               {name}
             </p>
-            {!this.verifyUserProfile() && <button onClick={() => this.checkIfFollowing()}>{followText}</button>}
+            {!this.verifyUserProfile() &&
+              <button onClick={() => this.checkIfFollowing()}>
+                {followText}
+              </button>}
           </article>
           <section className="artist-bio">
             <p>
@@ -193,7 +219,10 @@ class Profile extends Component {
         </section>
         <section className="artist-profile-images">
           {this.displayImages()}
-          {this.verifyUserProfile() && <button onClick={() => this.setState({ addImage: true })}>Add Image</button>}
+          {this.verifyUserProfile() &&
+            <button onClick={() => this.setState({ addImage: true })}>
+              Add Image
+            </button>}
           {addImage && <AddImage addImage={this.addImage} />}
         </section>
       </section>
