@@ -12,6 +12,7 @@ class Profile extends Component {
     this.state = {
       images: [],
       data: [],
+      followers: [],
       addImage: false
     };
     this.addImage = this.addImage.bind(this)
@@ -33,12 +34,20 @@ class Profile extends Component {
     })
     .then(response => response.json())
     .then(parsedResponse => this.addImageToState(parsedResponse[0]))
+    .catch(error => console.log({ error }))
   }
 
   addImageToState(image) {
     this.setState({
       images: [...this.state.images, image]
     })
+  }
+
+  componentDidMount() {
+    fetch('http://localhost:3001/api/v1/followers')
+      .then(response => response.json())
+      .then(followers => this.setState({followers}))
+      .catch(error => console.log({ error }))
   }
 
   componentWillReceiveProps(nextProps) {
@@ -66,9 +75,29 @@ class Profile extends Component {
     const { clickedArtist } = this.props;
 
     if (loggedInUserUID === clickedArtist.google_uid) {
-      console.log('same same');
       return true
     }
+  }
+
+  followArtist() {
+    const { id: artist_id } = this.props.clickedArtist;
+    const { id: follower_id } = this.props.currentUser;
+
+    const postFollower = {
+      artist_id,
+      follower_id
+    }
+
+    fetch('http://localhost:3001/api/v1/followers', {
+      method: 'POST',
+      body: JSON.stringify(postFollower),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(follower => this.setState({followers: [...this.state.followers, follower]}))
+    .catch(error => console.log({ error }))
   }
 
   render() {
@@ -87,6 +116,7 @@ class Profile extends Component {
             <p>
               {name}
             </p>
+            {!this.verifyUserProfile() && <button onClick={() => this.followArtist()}>Follow</button>}
           </article>
           <section className="artist-bio">
             <p>
