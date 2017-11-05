@@ -230,7 +230,37 @@ describe('API Routes', () => {
         response.should.have.status(404);
         response.body.error.should.equal('Comments for this image could not be found.')
         done();
-      })
-    })
+      });
+    });
+  });
+
+  describe('GET /api/v1/followers/:artist_id', () => {
+    it('should get the followers for a particular artist', done => {
+      const mockData =   {
+        id: 2,
+        follower_id: 1,
+        artist_id: 3
+      }
+
+      chai.request(server)
+      .get('/api/v1/followers/3')
+      .end((error, response) => {
+        response.should.have.status(200);
+        response.should.be.json;
+        response.body.should.be.a('array');
+        response.body[0].should.include(mockData);
+        done();
+      });
+    });
+
+    it('should return a 404 error if artist cannot be found', () => {
+      chai.request(server)
+      .get('/api/v1/followers/4')
+      .end((error, response) => {
+        response.should.have.status(404);
+        response.body.error.should.equal('User could not be found.');
+        done();
+      });
+    });
   });
 });
