@@ -93,4 +93,39 @@ describe('API Routes', () => {
       });
     });
   });
+
+  describe('GET /api/v1/users/auth/:google_uid', () => {
+    it('should get the user if a google id is put in the url params', done => {
+      const mockData = {
+        id: 1,
+        name: 'Travis Rollins',
+        username: 'Kalikoze',
+        tag:
+          'https://s-media-cache-ak0.pinimg.com/originals/9f/65/12/9f6512d4f5787662de0551654a2aec42.jpg',
+        shortBio:
+          'Travis was born from the boiling hot liquid plains of Kansas. You can see his tags all across the Western Hemisphere.',
+        google_uid: '1a2b3c'
+      }
+
+      chai.request(server)
+      .get('/api/v1/users/auth/1a2b3c')
+      .end((error, response) => {
+        response.should.have.status(200);
+        response.should.be.json;
+        response.body.should.be.a('object');
+        response.body.should.include(mockData);
+        done();
+      });
+    });
+
+    it('should return a 404 error if the google id does not exist', done => {
+      chai.request(server)
+      .get('/api/v1/users/auth/63jfa2')
+      .end((error, response) => {
+        response.should.have.status(404);
+        response.body.error.should.equal('Google UID could not be found.');
+        done();
+      });
+    });
+  });
 });
