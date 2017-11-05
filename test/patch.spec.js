@@ -35,40 +35,39 @@ describe('PATCH requests', () => {
       });
   });
   describe('PATCH /api/v1/users/:id', () => {
-    it.skip('should patch a user with a specific id', done => {
+    it('should patch a user with a specific id', done => {
       chai.request(server).get('/api/v1/users/1').end((error, response) => {
-        response.body.name.should.equal('tyler');
-        response.body.username.should.equal('neat');
-        response.body.tag.should.equal('image.net');
-        response.body.shortBio.should.equal('sweet');
-        done();
-      });
-      chai
-        .request(server)
-        .patch('/api/v1/users/1')
-        .send({
-          name: 'Patched User',
-          username: 'ChangedUsername',
-          tag: 'image.net',
-          shortBio: 'New bio'
-        })
-        .end((error, response) => {
-          response.should.have.status(200);
-          response.should.be.json;
-          response.body.should.be.a('object');
-          response.body.name.should.equal('Patched User');
-          response.body.username.should.equal('ChangedUsername');
-          response.body.tag.should.equal('image.net');
-          response.body.shortBio.should.equal('New bio');
-          done();
-        });
+        response.body.name.should.equal('Travis Rollins');
+        response.body.username.should.equal('Kalikoze');
+        response.body.tag.should.equal('https://s-media-cache-ak0.pinimg.com/originals/9f/65/12/9f6512d4f5787662de0551654a2aec42.jpg');
+        response.body.shortBio.should.equal('Travis was born from the boiling hot liquid plains of Kansas. You can see his tags all across the Western Hemisphere.');
 
-      chai.request(server).get('/api/v1/users/1').end((error, response) => {
-        response.body.name.should.equal('Patched User');
-        response.body.username.should.equal('ChangedUsername');
-        response.body.tag.should.equal('image.net');
-        response.body.shortBio.should.equal('New bio');
-        done();
+        chai
+          .request(server)
+          .patch('/api/v1/users/1')
+          .send({
+            name: 'Patched User',
+            username: 'ChangedUsername',
+            tag: 'image.net',
+            shortBio: 'New bio'
+          })
+          .end((error, response) => {
+            response.should.have.status(200);
+            response.should.be.json;
+            response.body.should.be.a('object');
+            response.body.name.should.equal('Patched User');
+            response.body.username.should.equal('ChangedUsername');
+            response.body.tag.should.equal('image.net');
+            response.body.shortBio.should.equal('New bio');
+
+            chai.request(server).get('/api/v1/users/1').end((error, response) => {
+              response.body.name.should.equal('Patched User');
+              response.body.username.should.equal('ChangedUsername');
+              response.body.tag.should.equal('image.net');
+              response.body.shortBio.should.equal('New bio');
+              done();
+            });
+          });
       });
     });
 
