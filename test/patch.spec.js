@@ -91,4 +91,22 @@ describe('PATCH /api/v1/users/:id', () => {
         done();
       });
   });
+
+  it('should return a 404 status if id cannot be found', done => {
+    chai
+      .request(server)
+      .patch('/api/v1/users/100')
+      .send({
+        name: 'Patched User',
+        username: 'ChangedUsername',
+        tag: 'image.net',
+        shortBio: 'New bio'
+      })
+      .end((error, response) => {
+        response.should.have.status(404);
+        response.should.be.json;
+        response.body.error.should.equal('Cannot find user with id of 100');
+        done();
+      });
+  });
 });
