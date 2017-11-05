@@ -72,29 +72,26 @@ describe('PATCH requests', () => {
       });
     });
 
-    it.skip(
-      'should return the correct error if the request is missing a required key',
-      done => {
-        chai
-          .request(server)
-          .patch('/api/v1/users/2')
-          .send({
-            username: 'NewUsername',
-            tag: 'updatedimage.com',
-            shortBio: 'This is my new bio.'
-          })
-          .end((error, response) => {
-            response.should.have.status(422);
-            response.should.be.json;
-            response.body.error.should.equal(
-              "Expected format: {'name': <string>, 'username': <string>, 'tag': <string>, 'shortBio': <string>}.  You are missing a name property."
-            );
-            done();
-          });
-      }
-    );
+    it('should return the correct error if the request is missing a required key', done => {
+      chai
+        .request(server)
+        .patch('/api/v1/users/2')
+        .send({
+          username: 'ChangedUsername',
+          tag: 'image.net',
+          shortBio: 'New bio'
+        })
+        .end((error, response) => {
+          response.should.have.status(422);
+          response.should.be.json;
+          response.body.error.should.equal(
+            "Expected format: {'name': <string>, 'username': <string>, 'tag': <string>, 'shortBio': <string>}.  You are missing a name property."
+          );
+          done();
+        });
+    });
 
-    it.skip('should return a 404 status if id cannot be found', done => {
+    it('should return a 404 status if user with given id cannot be found', done => {
       chai
         .request(server)
         .patch('/api/v1/users/100')
@@ -129,42 +126,32 @@ describe('PATCH requests', () => {
         });
     });
 
-    it.skip(
-      'should return the correct error if the request is missing a required key',
-      done => {
-        chai
-          .request(server)
-          .patch('/api/v1/users/2')
-          .send({
-            username: 'NewUsername',
-            tag: 'updatedimage.com',
-            shortBio: 'This is my new bio.'
-          })
-          .end((error, response) => {
-            response.should.have.status(422);
-            response.should.be.json;
-            response.body.error.should.equal(
-              "Expected format: {'name': <string>, 'username': <string>, 'tag': <string>, 'shortBio': <string>}.  You are missing a name property."
-            );
-            done();
-          });
-      }
-    );
-
-    it.skip('should return a 404 status if id cannot be found', done => {
+    it('should return the correct error if the request is missing a required key', done => {
       chai
         .request(server)
-        .patch('/api/v1/users/100')
+        .patch('/api/v1/comments/1')
+        .send({})
+        .end((error, response) => {
+          response.should.have.status(422);
+          response.should.be.json;
+          response.body.error.should.equal(
+            "Expected format: {'comment': <string>}.  You are missing a comment property."
+          );
+          done();
+        });
+    });
+
+    it('should return a 404 status if comment with given id cannot be found', done => {
+      chai
+        .request(server)
+        .patch('/api/v1/comments/50')
         .send({
-          name: 'Patched User',
-          username: 'ChangedUsername',
-          tag: 'image.net',
-          shortBio: 'New bio'
+          comment: 'I want to update this comment.'
         })
         .end((error, response) => {
           response.should.have.status(404);
           response.should.be.json;
-          response.body.error.should.equal('Cannot find user with id of 100');
+          response.body.error.should.equal('Cannot find comment with id of 50');
           done();
         });
     });
