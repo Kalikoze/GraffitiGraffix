@@ -4,7 +4,7 @@ import { fetchClickedArtist } from '../actions/index';
 import { bindActionCreators } from 'redux';
 
 const mapStateToProps = state => {
-  return { clickedArtist: state.clickedArtist };
+  return { clickedArtist: state.clickedArtist, currentUser: state.currentUser };
 };
 
 const mapDispatchToProps = dispatch => {

@@ -14,6 +14,31 @@ class Profile extends Component {
       data: [],
       addImage: false
     };
+    this.addImage = this.addImage.bind(this)
+  }
+
+  addImage(url) {
+    const { id } = this.props.currentUser;
+    const image = {
+      url,
+      user_id: id
+    }
+
+    fetch('http://localhost:3001/api/v1/images', {
+      method: 'POST',
+      body: JSON.stringify(image),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then(response => response.json())
+    .then(parsedResponse => this.addImageToState(parsedResponse[0]))
+  }
+
+  addImageToState(image) {
+    this.setState({
+      images: [...this.state.images, image]
+    })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -111,7 +136,7 @@ class Profile extends Component {
         <section className="artist-profile-images">
           {this.displayImages()}
           {this.verifyUserProfile() && <button onClick={() => this.setState({ addImage: true })}>Add Image</button>}
-          {addImage && <AddImage />}
+          {addImage && <AddImage addImage={this.addImage} />}
         </section>
       </section>
     );
