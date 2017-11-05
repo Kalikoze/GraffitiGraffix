@@ -14,7 +14,7 @@ module.exports = {
   test: {
     client: 'pg',
     connection:
-      process.env.DATABASE_URL || 'postgres://localhost/graffiti_graffix_test',
+      process.env.DATABASE_URL || 'postgres://localhost/graffiti_graffix',
     migrations: {
       directory: './db/migrations'
     },
