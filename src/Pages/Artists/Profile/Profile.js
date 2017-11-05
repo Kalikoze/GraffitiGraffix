@@ -4,13 +4,15 @@ import './Profile.css';
 import ReactDOM from 'react-dom';
 import * as V from 'victory';
 import { VictoryChart, VictoryArea, VictoryTheme, VictoryStack } from 'victory';
+import AddImage from '../AddImage/AddImage';
 
 class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
       images: [],
-      data: []
+      data: [],
+      addImage: false
     };
   }
 
@@ -29,7 +31,7 @@ class Profile extends Component {
       images = [];
     }
 
-    return images.map(image => < img className='profile-imgs' key={image.id} src={`${image.url}`} alt="" />);
+    return images.map(image => <img className='profile-imgs' key={image.id} src={`${image.url}`} alt="" />);
   }
 
   verifyUserProfile() {
@@ -46,6 +48,7 @@ class Profile extends Component {
 
   render() {
     const { clickedArtist } = this.props;
+    const { addImage } = this.state;
     const { tag, name, username, shortBio } = clickedArtist;
 
     return (
@@ -107,7 +110,8 @@ class Profile extends Component {
         </section>
         <section className="artist-profile-images">
           {this.displayImages()}
-          {this.verifyUserProfile() && <button>Add Image</button>}
+          {this.verifyUserProfile() && <button onClick={() => this.setState({ addImage: true })}>Add Image</button>}
+          {addImage && <AddImage />}
         </section>
       </section>
     );
