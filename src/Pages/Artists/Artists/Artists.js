@@ -13,6 +13,7 @@ export default class Artists extends Component {
     };
     this.sortNewest = this.sortNewest.bind(this);
     this.sortAlphabetically = this.sortAlphabetically.bind(this);
+    this.sortByPopularity = this.sortByPopularity.bind(this);
   }
 
   componentDidMount() {
@@ -72,6 +73,30 @@ export default class Artists extends Component {
     this.setState({artists: sortedArtists})
   }
 
+  sortByPopularity() {
+    const { artists } = this.state;
+    const artistPromises = artists.map(artist => {
+      return fetch(`http://localhost:3001/api/v1/followers/${artist.id}`)
+      .then(response => response.json())
+      .then(followers => {
+        return {followers: followers.length || 0, artist_id: artist.id}
+      })
+    })
+
+    Promise.all(artistPromises).then(artists => {
+      const newArtists = this.state.artists.map(artist => {
+        artists.forEach(followerObject => {
+          if(followerObject.artist_id === artist.id) {
+            artist = Object.assign({}, artist, {followerCount: followerObject.followers})
+          }
+        })
+        return artist
+      })
+      const sortedArtists = newArtists.sort((a, b) => a.followerCount < b.followerCount)
+      this.setState({artists: sortedArtists})
+    })
+  }
+
   render() {
     const artistList = this.state.artists.map((artist, i) =>
       <SingleArtist key={i} {...artist} />
@@ -79,7 +104,9 @@ export default class Artists extends Component {
 
     return (
       <section className="l-artists">
-        <Filter sortNewest={this.sortNewest} sortAlphabetically={this.sortAlphabetically}/>
+        <Filter sortNewest={this.sortNewest}
+        sortAlphabetically={this.sortAlphabetically}
+        sortByPopularity={this.sortByPopularity}/>
         {artistList}
       </section>
     );
