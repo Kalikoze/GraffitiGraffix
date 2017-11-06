@@ -14,7 +14,11 @@ class SingleImage extends Component {
     const { id } = this.props.clickedImage;
     fetch(`http://localhost:3001/api/v1/comments/${id}`)
       .then(response => response.json())
-      .then(comments => this.setState({ comments }))
+      .then(comments => {
+        if (!comments.error) {
+          return this.setState({ comments });
+        }
+      })
       .catch(error => console.log(error));
   }
 
@@ -32,10 +36,13 @@ class SingleImage extends Component {
     return (
       <section className="single-image">
         <img src={url} />
-        <article className="comments">
-          {this.displayComments()}
+        <article className="comments-container">
+          <article className="comments">
+            {this.displayComments()}
+          </article>
+          <input class="add-comment" placeholder="Add a comment" />
         </article>
-        <button onClick={() => toggleImage(null, null)}>Close</button>
+        <button onClick={() => toggleImage(null, null)}>X</button>
       </section>
     );
   }
