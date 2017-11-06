@@ -6,6 +6,7 @@ class SingleImage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      newComment: '',
       comments: []
     };
   }
@@ -16,7 +17,7 @@ class SingleImage extends Component {
       .then(response => response.json())
       .then(comments => {
         if (!comments.error) {
-          return this.setState({ comments });
+          return this.setState({ comments: comments.reverse() });
         }
       })
       .catch(error => console.log(error));
@@ -30,6 +31,30 @@ class SingleImage extends Component {
     );
   }
 
+  submitComment(e) {
+    if(e.keyCode === 13) {
+      const { id: user_id } = this.props.currentUser;
+      const { id: image_id } = this.props.clickedImage;
+      const { newComment: comment, comments } = this.state;
+
+      const sendComment = {
+        user_id,
+        comment,
+        image_id
+      }
+
+      fetch('http://localhost:3001/api/v1/comments', {
+        method: 'POST',
+        body: JSON.stringify(sendComment),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(response => response.json())
+      .then(comment => this.setState({comments: [...comments, comment[0]], newComment: ''}))
+      .catch(error => console.log({ error }))
+    }
+  }
+
   render() {
     const { url, id } = this.props.clickedImage;
     const { toggleImage } = this.props;
@@ -40,7 +65,12 @@ class SingleImage extends Component {
           <article className="comments">
             {this.displayComments()}
           </article>
-          <input class="add-comment" placeholder="Add a comment" />
+          <input className="add-comment"
+          placeholder="Add a comment"
+          value={this.state.newComment}
+          onChange={e => this.setState({newComment: e.target.value})}
+          onKeyDown={e => this.submitComment(e)}
+        />
         </article>
         <button onClick={() => toggleImage(null, null)}>X</button>
       </section>
