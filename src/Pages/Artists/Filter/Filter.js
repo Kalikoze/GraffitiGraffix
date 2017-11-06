@@ -1,13 +1,13 @@
 import React from 'react';
 import './Filter.css'
 
-const Filter = () => {
+const Filter = ({sortNewest, sortAlphabetically}) => {
   return (
     <section className='l-filter'>
-      <button className="filter-options">
+      <button className="filter-options" onClick={() => sortNewest()}>
         Newest
       </button>
-      <button className="filter-options">
+      <button className="filter-options" onClick={() => sortAlphabetically()}>
         A-Z
       </button>
       <button className="filter-options">

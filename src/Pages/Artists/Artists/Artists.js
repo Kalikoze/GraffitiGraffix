@@ -11,6 +11,8 @@ export default class Artists extends Component {
     this.state = {
       artists: []
     };
+    this.sortNewest = this.sortNewest.bind(this);
+    this.sortAlphabetically = this.sortAlphabetically.bind(this);
   }
 
   componentDidMount() {
@@ -52,6 +54,21 @@ export default class Artists extends Component {
     });
   }
 
+  sortNewest() {
+    const { artists } = this.state;
+    const datedArtists = artists.map(artist => {
+      artist.created_at = artist.created_at.split(' ')[0].split('T')[0]
+      return artist
+    })
+    const sortedArtists = datedArtists.sort((a, b) => a.created_at < b.created_at)
+
+    this.setState({artists: sortedArtists})
+  }
+
+  sortAlphabetically() {
+    
+  }
+
   render() {
     const artistList = this.state.artists.map((artist, i) =>
       <SingleArtist key={i} {...artist} />
@@ -59,7 +76,7 @@ export default class Artists extends Component {
 
     return (
       <section className="l-artists">
-        <Filter />
+        <Filter sortNewest={this.sortNewest} sortAlphabetically={this.sortAlphabetically}/>
         {artistList}
       </section>
     );
