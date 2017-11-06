@@ -264,8 +264,8 @@ describe('DELETE endpoints', () => {
 		});
 	});
 
-	describe('DELETE /api/v1/followers/:id', () => {
-		it('should delete a follower with a given id', done => {
+	describe('DELETE /api/v1/followers/:artist_id/:follower_id', () => {
+		it('should delete a follower with a given artist and follower id', done => {
 			chai
 				.request(server)
 				.get('/api/v1/followers/2')
@@ -275,7 +275,7 @@ describe('DELETE endpoints', () => {
 
 					chai
 						.request(server)
-						.delete('/api/v1/followers/1')
+						.delete('/api/v1/followers/2/1')
 						.end((error, response) => {
 							response.should.have.status(204);
 
@@ -294,7 +294,7 @@ describe('DELETE endpoints', () => {
 		it('should not delete a follower if no id is found', done => {
 			chai
 				.request(server)
-				.delete('/api/v1/followers/4')
+				.delete('/api/v1/followers/1/4')
 				.end((error, response) => {
 					response.should.have.status(404);
 					response.body.error.should.equal(

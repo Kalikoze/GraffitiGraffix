@@ -7,6 +7,7 @@ const configuration = require('./knexfile')[environment];
 const db = require('knex')(configuration);
 const cors = require('express-cors');
 
+app.locals.title = 'Graffiti Graffix';
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
@@ -244,7 +245,7 @@ app.delete('/api/v1/followers/:artist_id/:follower_id', (request, response) => {
           ? response.sendStatus(204)
           : response
               .status(404)
-              .send({ error: `No follower to delete with id of ${id.id}` })
+              .send({ error: `No follower to delete with id of ${follower_id}` })
     )
     .catch(error => response.status(500).json({ error }));
 });
