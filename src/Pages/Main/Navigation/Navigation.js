@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink, Redirect } from 'react-router-dom';
-import firebase, { signIn, signOut } from '../../../firebase.js';
+import { signIn, signOut } from '../../../firebase';
 import './Navigation.css';
 import NavigationContainer from '../../../containers/NavigationContainer';
 
@@ -9,7 +9,7 @@ class Navigation extends Component {
     super(props);
     this.state = {
       search: '',
-      signInClicked: false
+      signInClicked: false,
     };
   }
 
@@ -52,16 +52,17 @@ class Navigation extends Component {
   signInSignOut() {
     const { currentUser } = this.props;
 
-    this.setState({
-      signInClicked: true
-    }, () => {
-      currentUser.id ? this.signOutUser() : this.sendSignInData()
-    })
+    this.setState(
+      {
+        signInClicked: true,
+      },
+      () => (currentUser.id ? this.signOutUser() : this.sendSignInData()),
+    );
   }
 
   render() {
     const { search, signInClicked } = this.state;
-    const { currentUser } = this.props
+    const { currentUser } = this.props;
     const userStatus = currentUser.id ? 'Sign Out' : 'Sign In';
 
     if (!currentUser.id && signInClicked) {

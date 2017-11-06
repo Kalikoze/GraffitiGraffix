@@ -1,7 +1,9 @@
 const express = require('express');
+
 const app = express();
 const bodyParser = require('body-parser');
 const path = require('path');
+
 const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
 const db = require('knex')(configuration);
@@ -17,20 +19,17 @@ app.use((req, res, next) => {
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Accept'
   );
-  res.header(
-    'Access-Control-Allow-Methods',
-    'GET, PUT, POST, DELETE, PATCH'
-  );
+  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, PATCH');
   next();
 });
 
 app.set('port', process.env.PORT || 3001);
-app.get('/api/v1/users', (request, response) => {
-  return db('users')
+app.get('/api/v1/users', (request, response) =>
+  db('users')
     .select()
     .then(users => response.status(200).json(users))
-    .catch(error => response.status(500).json({ error }));
-});
+    .catch(error => response.status(500).json({ error }))
+);
 
 app.get('/api/v1/users/:id', (request, response) => {
   const id = request.params;
@@ -62,12 +61,12 @@ app.get('/api/v1/users/auth/:google_uid', (request, response) => {
     );
 });
 
-app.get('/api/v1/images', (request, response) => {
-  return db('images')
+app.get('/api/v1/images', (request, response) =>
+  db('images')
     .select()
     .then(images => response.status(200).json(images))
-    .catch(error => response.status(500).json({ error }));
-});
+    .catch(error => response.status(500).json({ error }))
+);
 
 app.get('/api/v1/images/:user_id', (request, response) => {
   const user_id = request.params;
@@ -88,9 +87,18 @@ app.get('/api/v1/images/:user_id', (request, response) => {
 app.get('/api/v1/comments/:image_id', (request, response) => {
   const image_id = request.params;
 
-  return db('comments').where(image_id).select()
-    .then(comment => !comment.length ? response.status(404).json({ error: 'Comments for this image could not be found.' }) : response.status(200).json(comment))
-})
+  return db('comments')
+    .where(image_id)
+    .select()
+    .then(
+      comment =>
+        !comment.length
+          ? response
+              .status(404)
+              .json({ error: 'Comments for this image could not be found.' })
+          : response.status(200).json(comment)
+    );
+});
 
 app.get('/api/v1/followers/:artist_id', (request, response) => {
   const artist_id = request.params;
@@ -114,12 +122,12 @@ app.post('/api/v1/users', (request, response) => {
   for (const requiredParameter of keys) {
     if (!user[requiredParameter]) {
       return response.status(422).send({
-        error: `Expected format: {'name': <string>, 'username': <string>, 'tag': <string>, 'shortBio': <string>, 'google_uid': <string>}.  You are missing a ${requiredParameter} property.`
+        error: `Expected format: {'name': <string>, 'username': <string>, 'tag': <string>, 'shortBio': <string>, 'google_uid': <string>}.  You are missing a ${requiredParameter} property.`,
       });
     }
   }
 
-  db('users')
+  return db('users')
     .insert(user, '*')
     .then(user => response.status(201).json(user))
     .catch(error => response.status(500).json({ error }));
@@ -138,7 +146,7 @@ app.post('/api/v1/images', (request, response) => {
     }
   }
 
-  db('images')
+  return db('images')
     .insert(image, '*')
     .then(image => response.status(201).json(image))
     .catch(error => response.status(500).json({ error }));
@@ -157,7 +165,7 @@ app.post('/api/v1/comments', (request, response) => {
     }
   }
 
-  db('comments')
+  return db('comments')
     .insert(comment, '*')
     .then(comment => response.status(201).json(comment))
     .catch(error => response.status(500).json({ error }));
@@ -176,7 +184,7 @@ app.post('/api/v1/followers', (request, response) => {
     }
   }
 
-  db('followers')
+  return db('followers')
     .insert(follower, '*')
     .then(follower => response.status(201).json(follower))
     .catch(error => response.status(500).json({ error }));
@@ -237,15 +245,15 @@ app.delete('/api/v1/followers/:artist_id/:follower_id', (request, response) => {
   const { artist_id, follower_id } = request.params;
 
   db('followers')
-    .where({artist_id, follower_id})
+    .where({ artist_id, follower_id })
     .del()
     .then(
       length =>
         length
           ? response.sendStatus(204)
-          : response
-              .status(404)
-              .send({ error: `No follower to delete with id of ${follower_id}` })
+          : response.status(404).send({
+              error: `No follower to delete with id of ${follower_id}`
+            })
     )
     .catch(error => response.status(500).json({ error }));
 });
@@ -262,7 +270,7 @@ app.patch('/api/v1/users/:id', (request, response) => {
     }
   }
 
-  db('users')
+  return db('users')
     .where(id)
     .update(request.body, '*')
     .then(update => {
@@ -279,13 +287,13 @@ app.patch('/api/v1/users/:id', (request, response) => {
 app.patch('/api/v1/comments/:id', (request, response) => {
   const id = request.params;
 
-  if (!request.body['comment']) {
+  if (!request.body.comment) {
     return response.status(422).send({
       error: `Expected format: {'comment': <string>}.  You are missing a comment property.`
     });
   }
 
-  db('comments')
+  return db('comments')
     .where(id)
     .update(request.body, '*')
     .then(update => {

@@ -5,6 +5,6 @@ const clickedArtist = (state = {}, action) => {
     default:
       return state;
   }
-}
+};
 
 export default clickedArtist;

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
+import { VictoryChart, VictoryArea, VictoryTheme } from 'victory';
 import ProfileContainer from '../../../containers/ProfileContainer';
 import SingleImage from '../SingleImage/SingleImage';
 import './Profile.css';
-import ReactDOM from 'react-dom';
-import * as V from 'victory';
-import { VictoryChart, VictoryArea, VictoryTheme, VictoryStack } from 'victory';
 import AddImage from '../AddImage/AddImage';
 
 class Profile extends Component {
@@ -16,35 +14,10 @@ class Profile extends Component {
       followers: [],
       addImage: false,
       followStatus: false,
-      showImage: false
+      showImage: false,
     };
     this.addImage = this.addImage.bind(this);
     this.toggleImage = this.toggleImage.bind(this);
-  }
-
-  addImage(url) {
-    const { id } = this.props.currentUser;
-    const image = {
-      url,
-      user_id: id
-    };
-
-    fetch('http://localhost:3001/api/v1/images', {
-      method: 'POST',
-      body: JSON.stringify(image),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => response.json())
-      .then(parsedResponse => this.addImageToState(parsedResponse[0]))
-      .catch(error => console.log({ error }));
-  }
-
-  addImageToState(image) {
-    this.setState({
-      images: [...this.state.images, image]
-    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -60,6 +33,31 @@ class Profile extends Component {
       .catch(error => console.log({ error }));
   }
 
+  addImage(url) {
+    const { id } = this.props.currentUser;
+    const image = {
+      url,
+      user_id: id,
+    };
+
+    fetch('http://localhost:3001/api/v1/images', {
+      method: 'POST',
+      body: JSON.stringify(image),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => response.json())
+      .then(parsedResponse => this.addImageToState(parsedResponse[0]))
+      .catch(error => console.log({ error }));
+  }
+
+  addImageToState(image) {
+    this.setState({
+      images: [...this.state.images, image],
+    });
+  }
+
   toggleImage(url, id) {
     this.props.storeClickedImage(url, id);
     this.setState({ showImage: !this.state.showImage });
@@ -72,27 +70,27 @@ class Profile extends Component {
       images = [];
     }
 
-
     return images.map(image =>
-      <img
+      (<img
         onClick={() => this.toggleImage(image.url, image.id)}
         className="profile-imgs"
         key={image.id}
         src={`${image.url}`}
         alt=""
-      />
+      />),
     );
   }
 
   verifyUserProfile() {
     const loggedInUserUID = JSON.parse(
-      localStorage.getItem(Object.keys(localStorage)[0])
+      localStorage.getItem(Object.keys(localStorage)[0]),
     ).uid;
     const { clickedArtist } = this.props;
 
     if (loggedInUserUID === clickedArtist.google_uid) {
       return true;
     }
+    return false;
   }
 
   followArtist() {
@@ -101,22 +99,22 @@ class Profile extends Component {
 
     const postFollower = {
       artist_id,
-      follower_id
+      follower_id,
     };
 
     fetch('http://localhost:3001/api/v1/followers', {
       method: 'POST',
       body: JSON.stringify(postFollower),
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
       .then(response => response.json())
       .then(follower =>
         this.setState({
           followers: [...this.state.followers, follower[0]],
-          followStatus: true
-        })
+          followStatus: true,
+        }),
       )
       .catch(error => console.log({ error }));
   }
@@ -131,14 +129,14 @@ class Profile extends Component {
         method: 'DELETE',
         body: JSON.stringify({ artist_id, follower_id }),
         headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    ).then(response => {
+          'Content-Type': 'application/json',
+        },
+      },
+    ).then(() => {
       const newFollowers = this.state.followers.filter(
         follower =>
           follower.artist_id !== artist_id &&
-          follower.follower_id !== follower_id
+          follower.follower_id !== follower_id,
       );
       this.setState({ followers: newFollowers, followStatus: false });
     });
@@ -151,12 +149,13 @@ class Profile extends Component {
 
     const isFollowed = followers.findIndex(
       follower =>
-        follower.artist_id === artist_id && follower.follower_id === follower_id
+        follower.artist_id === artist_id &&
+        follower.follower_id === follower_id,
     );
 
     console.log(isFollowed);
 
-    isFollowed !== -1 ? this.unfollowArtist() : this.followArtist();
+    return isFollowed !== -1 ? this.unfollowArtist() : this.followArtist();
   }
 
   render() {
@@ -206,12 +205,12 @@ class Profile extends Component {
                 animate={{
                   duration: 2000,
                   onLoad: { duration: 1000 },
-                  onEnter: { duration: 500, before: () => ({ y: 0 }) }
+                  onEnter: { duration: 500, before: () => ({ y: 0 }) },
                 }}
                 x="day"
                 y="fire"
                 style={{
-                  data: { fill: 'url(#myGradient)' }
+                  data: { fill: 'url(#myGradient)' },
                 }}
                 data={[
                   { day: 1, fire: 2 },
@@ -220,7 +219,7 @@ class Profile extends Component {
                   { day: 4, fire: 4 },
                   { day: 4, fire: 8 },
                   { day: 4, fire: 4 },
-                  { day: 5, fire: 5 }
+                  { day: 5, fire: 5 },
                 ]}
               />
             </VictoryChart>

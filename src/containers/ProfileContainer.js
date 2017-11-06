@@ -1,21 +1,14 @@
-import React from 'react';
 import { connect } from 'react-redux';
-import { fetchClickedArtist, storeClickedImage } from '../actions/index';
 import { bindActionCreators } from 'redux';
+import { fetchClickedArtist, storeClickedImage } from '../actions/index';
 
-const mapStateToProps = state => {
-  return {
-    clickedArtist: state.clickedArtist,
-    currentUser: state.currentUser,
-    clickedImage: state.clickedImage
-  };
-};
+const mapStateToProps = state => ({
+  clickedArtist: state.clickedArtist,
+  currentUser: state.currentUser,
+  clickedImage: state.clickedImage,
+});
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators(
-    { fetchClickedArtist, storeClickedImage },
-    dispatch
-  );
-};
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ fetchClickedArtist, storeClickedImage }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps);

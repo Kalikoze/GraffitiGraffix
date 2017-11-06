@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import './SignUp.css';
 import NavigationContainer from '../../containers/NavigationContainer';
-import { Redirect } from 'react-router-dom';
 
 class SignUp extends Component {
   constructor(props) {
@@ -10,36 +10,36 @@ class SignUp extends Component {
       username: '',
       shortBio: '',
       tag: '',
-      redirect: false
+      redirect: false,
     };
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.currentUser.google_uid) {
       this.setState({
-        redirect: true
-      })
+        redirect: true,
+      });
     }
   }
 
   createUser(e) {
     e.preventDefault();
     const storedInfo = JSON.parse(
-      localStorage.getItem(Object.keys(localStorage)[0])
+      localStorage.getItem(Object.keys(localStorage)[0]),
     );
 
     const { username, shortBio, tag } = this.state;
 
     const googleInfo = {
       name: storedInfo.displayName,
-      google_uid: storedInfo.uid
+      google_uid: storedInfo.uid,
     };
 
     const stateInfo = {
       username,
       shortBio,
-      tag
-    }
+      tag,
+    };
 
     const newUser = Object.assign({}, stateInfo, googleInfo);
     this.props.postNewUser(newUser);
@@ -49,7 +49,7 @@ class SignUp extends Component {
     const { username, shortBio, tag, redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to='/' />
+      return <Redirect to="/" />;
     }
 
     return (
