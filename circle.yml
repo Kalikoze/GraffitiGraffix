@@ -8,3 +8,4 @@ machine:
 test:
   override:
     - ./node_modules/.bin/mocha --exit
+    - react-scripts test --env=jsdom
