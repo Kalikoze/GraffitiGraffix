@@ -6,7 +6,7 @@ import clickedImage from './clickedImage';
 const rootReducer = combineReducers({
   currentUser,
   clickedArtist,
-  clickedImage
+  clickedImage,
 });
 
 export default rootReducer;

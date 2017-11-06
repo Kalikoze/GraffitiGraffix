@@ -9,7 +9,7 @@ export default class Artists extends Component {
   constructor() {
     super();
     this.state = {
-      artists: []
+      artists: [],
     };
     this.sortNewest = this.sortNewest.bind(this);
     this.sortAlphabetically = this.sortAlphabetically.bind(this);
@@ -19,9 +19,9 @@ export default class Artists extends Component {
   componentDidMount() {
     return Promise.all([
       this.fetchArtists(),
-      this.fetchImages()
+      this.fetchImages(),
     ]).then(response =>
-      this.setState({ artists: this.assignImages(response[0], response[1]) })
+      this.setState({ artists: this.assignImages(response[0], response[1]) }),
     );
   }
 
@@ -38,7 +38,7 @@ export default class Artists extends Component {
   }
 
   assignImages(artists, images) {
-    return artists.map((artist, i) => {
+    return artists.map(artist => {
       const artistImages = images.filter(image => image.user_id === artist.id);
       for (let j = 0; j < 3; j++) {
         if (!artistImages[j]) {
@@ -50,7 +50,7 @@ export default class Artists extends Component {
         artist.tag = missingTag;
       }
       return Object.assign({}, artist, {
-        latestImages: artistImages.slice(0, 3)
+        latestImages: artistImages.slice(0, 3),
       });
     });
   }
@@ -58,55 +58,64 @@ export default class Artists extends Component {
   sortNewest() {
     const { artists } = this.state;
     const datedArtists = artists.map(artist => {
-      artist.created_at = artist.created_at.split(' ')[0].split('T')[0]
-      return artist
-    })
-    const sortedArtists = datedArtists.sort((a, b) => a.created_at < b.created_at)
+      artist.created_at = artist.created_at.split(' ')[0].split('T')[0];
+      return artist;
+    });
+    const sortedArtists = datedArtists.sort(
+      (a, b) => a.created_at < b.created_at,
+    );
 
-    this.setState({artists: sortedArtists})
+    this.setState({ artists: sortedArtists });
   }
 
   sortAlphabetically() {
     const { artists } = this.state;
 
     const sortedArtists = artists.sort((a, b) => a.username > b.username);
-    this.setState({artists: sortedArtists})
+    this.setState({ artists: sortedArtists });
   }
 
   sortByPopularity() {
     const { artists } = this.state;
-    const artistPromises = artists.map(artist => {
-      return fetch(`http://localhost:3001/api/v1/followers/${artist.id}`)
-      .then(response => response.json())
-      .then(followers => {
-        return {followers: followers.length || 0, artist_id: artist.id}
-      })
-    })
+    const artistPromises = artists.map(artist =>
+      fetch(`http://localhost:3001/api/v1/followers/${artist.id}`)
+        .then(response => response.json())
+        .then(followers => ({
+          followers: followers.length || 0,
+          artist_id: artist.id,
+        })),
+    );
 
-    Promise.all(artistPromises).then(artists => {
-      const newArtists = this.state.artists.map(artist => {
-        artists.forEach(followerObject => {
-          if(followerObject.artist_id === artist.id) {
-            artist = Object.assign({}, artist, {followerCount: followerObject.followers})
+    Promise.all(artistPromises).then(fetchedArtists => {
+      const newArtists = this.state.fetchedArtists.map(artist => {
+        fetchedArtists.forEach(followerObject => {
+          if (followerObject.artist_id === artist.id) {
+            artist = Object.assign({}, artist, {
+              followerCount: followerObject.followers,
+            });
           }
-        })
-        return artist
-      })
-      const sortedArtists = newArtists.sort((a, b) => a.followerCount < b.followerCount)
-      this.setState({artists: sortedArtists})
-    })
+        });
+        return artist;
+      });
+      const sortedArtists = newArtists.sort(
+        (a, b) => a.followerCount < b.followerCount,
+      );
+      this.setState({ artists: sortedArtists });
+    });
   }
 
   render() {
     const artistList = this.state.artists.map((artist, i) =>
-      <SingleArtist key={i} {...artist} />
+      <SingleArtist key={i} {...artist} />,
     );
 
     return (
       <section className="l-artists">
-        <Filter sortNewest={this.sortNewest}
-        sortAlphabetically={this.sortAlphabetically}
-        sortByPopularity={this.sortByPopularity}/>
+        <Filter
+          sortNewest={this.sortNewest}
+          sortAlphabetically={this.sortAlphabetically}
+          sortByPopularity={this.sortByPopularity}
+        />
         {artistList}
       </section>
     );

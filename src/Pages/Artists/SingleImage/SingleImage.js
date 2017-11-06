@@ -7,7 +7,7 @@ class SingleImage extends Component {
     super(props);
     this.state = {
       newComment: '',
-      comments: []
+      comments: [],
     };
   }
 
@@ -25,14 +25,14 @@ class SingleImage extends Component {
 
   displayComments() {
     return this.state.comments.map(comment =>
-      <p key={comment.id}>
+      (<p key={comment.id}>
         {comment.comment}
-      </p>
+       </p>),
     );
   }
 
   submitComment(e) {
-    if(e.keyCode === 13) {
+    if (e.keyCode === 13) {
       const { id: user_id } = this.props.currentUser;
       const { id: image_id } = this.props.clickedImage;
       const { newComment: comment, comments } = this.state;
@@ -40,37 +40,44 @@ class SingleImage extends Component {
       const sendComment = {
         user_id,
         comment,
-        image_id
-      }
+        image_id,
+      };
 
       fetch('http://localhost:3001/api/v1/comments', {
         method: 'POST',
         body: JSON.stringify(sendComment),
         headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(response => response.json())
-      .then(comment => this.setState({comments: [...comments, comment[0]], newComment: ''}))
-      .catch(error => console.log({ error }))
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(response => response.json())
+        .then(fetchedComment =>
+          this.setState({
+            comments: [...comments, fetchedComment[0]],
+            newComment: '',
+          }),
+        )
+        .catch(error => console.log({ error }));
     }
   }
 
   render() {
-    const { url, id } = this.props.clickedImage;
+    const { url } = this.props.clickedImage;
     const { toggleImage } = this.props;
     return (
       <section className="single-image">
-        <img src={url} />
+        <img src={url} alt="user content" />
         <article className="comments-container">
           <article className="comments">
             {this.displayComments()}
           </article>
-          <input className="add-comment"
-          placeholder="Add a comment"
-          value={this.state.newComment}
-          onChange={e => this.setState({newComment: e.target.value})}
-          onKeyDown={e => this.submitComment(e)}
-        />
+          <input
+            className="add-comment"
+            placeholder="Add a comment"
+            value={this.state.newComment}
+            onChange={e => this.setState({ newComment: e.target.value })}
+            onKeyDown={e => this.submitComment(e)}
+          />
         </article>
         <button onClick={() => toggleImage(null, null)}>X</button>
       </section>
