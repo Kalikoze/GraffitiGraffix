@@ -5,9 +5,6 @@ machine:
     version: 7.10.0
   environment:
     DATABASE_URL: postgresql://ubuntu:@127.0.0.1:5432/circle_test
-  test-backend:
-    override:
-      - ./node_modules/.bin/mocha --exit
-  test-frontend:
-    override:
-      - react-scripts test --env=jsdom
+test:
+  override:
+    - ./node_modules/.bin/mocha --exit
