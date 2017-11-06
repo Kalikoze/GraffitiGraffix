@@ -72,6 +72,7 @@ class Profile extends Component {
       images = [];
     }
 
+
     return images.map(image =>
       <img
         onClick={() => this.toggleImage(image.url, image.id)}
