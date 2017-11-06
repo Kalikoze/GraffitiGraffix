@@ -66,7 +66,10 @@ export default class Artists extends Component {
   }
 
   sortAlphabetically() {
-    
+    const { artists } = this.state;
+
+    const sortedArtists = artists.sort((a, b) => a.username > b.username);
+    this.setState({artists: sortedArtists})
   }
 
   render() {
