@@ -23,11 +23,11 @@ class Profile extends Component {
   componentWillReceiveProps(nextProps) {
     const { clickedArtist } = nextProps;
 
-    fetch(`http://localhost:3001/api/v1/images/${clickedArtist.id}`)
+    fetch(`/api/v1/images/${clickedArtist.id}`)
       .then(response => response.json())
       .then(images => this.setState({ images }));
 
-    fetch(`http://localhost:3001/api/v1/followers/${clickedArtist.id}`)
+    fetch(`/api/v1/followers/${clickedArtist.id}`)
       .then(response => response.json())
       .then(followers => this.setState({ followers }))
       .catch(error => console.log({ error }));
@@ -40,7 +40,7 @@ class Profile extends Component {
       user_id: id,
     };
 
-    fetch('http://localhost:3001/api/v1/images', {
+    fetch('/api/v1/images', {
       method: 'POST',
       body: JSON.stringify(image),
       headers: {
@@ -102,7 +102,7 @@ class Profile extends Component {
       follower_id,
     };
 
-    fetch('http://localhost:3001/api/v1/followers', {
+    fetch('/api/v1/followers', {
       method: 'POST',
       body: JSON.stringify(postFollower),
       headers: {
@@ -124,7 +124,7 @@ class Profile extends Component {
     const { id: follower_id } = this.props.currentUser;
 
     fetch(
-      `http://localhost:3001/api/v1/followers/${artist_id}/${follower_id}`,
+      `/api/v1/followers/${artist_id}/${follower_id}`,
       {
         method: 'DELETE',
         body: JSON.stringify({ artist_id, follower_id }),
