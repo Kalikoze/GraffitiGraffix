@@ -11,10 +11,10 @@ const SingleArtist = ({
   clickArtist,
   currentUser
 }) => {
-  const images = latestImages.map(img =>
+  const images = latestImages.map((img, id) =>
     (<img
       className="single-artist-image"
-      key={img.id}
+      key={id}
       src={img.url}
       alt="latest images"
     />),
