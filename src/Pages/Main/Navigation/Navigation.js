@@ -10,6 +10,7 @@ class Navigation extends Component {
     this.state = {
       search: '',
       signInClicked: false,
+      signOutClicked: false,
     };
   }
 
@@ -41,33 +42,41 @@ class Navigation extends Component {
   sendSignInData() {
     localStorage.clear();
     signIn().then(response => this.fetchUID(response.user.uid));
+    this.setState({
+      signOutClicked: false,
+      signInClicked: true,
+    })
   }
 
   signOutUser() {
     signOut().then(() => {
       this.props.storeCurrentUser({});
+      this.setState({
+        signOutClicked: true,
+        signInClicked: false,
+      })
     });
   }
 
   signInSignOut() {
     const { currentUser } = this.props;
 
-    this.setState(
-      {
-        signInClicked: true,
-      },
-      () => (currentUser.id ? this.signOutUser() : this.sendSignInData()),
-    );
+    return currentUser.id ? this.signOutUser() : this.sendSignInData()
   }
 
   render() {
-    const { search, signInClicked } = this.state;
+    const { search, signInClicked, signOutClicked } = this.state;
     const { currentUser, fetchClickedArtist } = this.props;
     const userStatus = currentUser.id ? 'Sign Out' : 'Sign In';
 
     if (!currentUser.id && signInClicked) {
       return <Redirect to="/signup" />;
     }
+
+    if (signOutClicked) {
+      return <Redirect to="/" />;
+    }
+
 
     return (
       <nav>
@@ -85,16 +94,18 @@ class Navigation extends Component {
         </div>
 
         <div className="nav-section">
-          <NavLink to="/profile" onClick={() => fetchClickedArtist(currentUser.id)} className="profile-link link">
-            Profile
-          </NavLink>
-        </div>
-
-        <div className="nav-section">
           <NavLink to="/artists" className="artists-link link">
             Artists
           </NavLink>
         </div>
+
+        { currentUser.id &&
+          <div className="nav-section">
+            <NavLink to="/profile" onClick={() => fetchClickedArtist(currentUser.id)} className="profile-link link">
+              Profile
+            </NavLink>
+          </div>
+        }
 
         <div className="nav-section">
           <NavLink

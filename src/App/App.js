@@ -10,7 +10,15 @@ import Profile from '../Pages/Artists/Profile/Profile';
 const App = () =>
   (<div className="App">
     <Navigation />
-    <Route exact path="/" component={Main} />
+    <Route exact path="/" render={() => {
+        return (
+          <div>
+            <Navigation />
+            <Main />
+          </div>
+        )
+      }
+    } />
     <Route exact path="/artists" component={Artists} />
     <Route exact path="/signup" component={SignUp} />
     <Route exact path="/profile" component={Profile} />
