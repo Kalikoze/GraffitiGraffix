@@ -156,12 +156,12 @@ app.post('/api/v1/images', (request, response) => {
 app.post('/api/v1/comments', (request, response) => {
   const comment = request.body;
 
-  const keys = ['comment', 'user_id', 'image_id'];
+  const keys = ['comment', 'username', 'user_id', 'image_id'];
 
   for (const requiredParameter of keys) {
     if (!comment[requiredParameter]) {
       return response.status(422).send({
-        error: `Expected format: {'comment': <string>, 'user_id': <integer>, 'image_id': <integer>}.  You are missing a ${requiredParameter} property.`
+        error: `Expected format: {'comment': <string>, 'username': <string>, 'user_id': <integer>, 'image_id': <integer>}.  You are missing a ${requiredParameter} property.`
       });
     }
   }

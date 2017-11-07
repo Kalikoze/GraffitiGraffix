@@ -22,6 +22,7 @@ exports.up = (knex, Promise) => {
     knex.schema.createTable('comments', table => {
       table.increments('id').primary();
       table.string('comment');
+      table.string('username');
       table.integer('user_id').unsigned();
       table.foreign('user_id').references('users.id').onDelete('cascade');
       table.integer('image_id').unsigned();
