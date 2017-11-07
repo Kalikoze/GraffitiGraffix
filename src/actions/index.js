@@ -4,7 +4,7 @@ export const storeCurrentUser = user => ({
 });
 
 export const postNewUser = user => dispatch => {
-  fetch('http://localhost:3001/api/v1/users', {
+  fetch('/api/v1/users', {
     method: 'POST',
     body: JSON.stringify(user),
     headers: {
@@ -22,7 +22,7 @@ export const storeClickedArtist = artist => ({
 });
 
 export const fetchArtistImages = artist => dispatch => {
-  fetch(`http://localhost:3001/api/v1/images/${artist.id}`)
+  fetch(`/api/v1/images/${artist.id}`)
     .then(response => response.json())
     .then(parsedResponse =>
       dispatch(
@@ -35,7 +35,7 @@ export const fetchArtistImages = artist => dispatch => {
 };
 
 export const fetchClickedArtist = id => dispatch => {
-  fetch(`http://localhost:3001/api/v1/users/${id}`)
+  fetch(`/api/v1/users/${id}`)
     .then(response => response.json())
     .then(parsedResponse => dispatch(fetchArtistImages(parsedResponse)))
     .catch(error => console.log(error));

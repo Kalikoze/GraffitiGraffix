@@ -13,7 +13,7 @@ class SingleImage extends Component {
 
   componentDidMount() {
     const { id } = this.props.clickedImage;
-    fetch(`http://localhost:3001/api/v1/comments/${id}`)
+    fetch(`/api/v1/comments/${id}`)
       .then(response => response.json())
       .then(comments => {
         if (!comments.error) {
@@ -43,7 +43,7 @@ class SingleImage extends Component {
         image_id,
       };
 
-      fetch('http://localhost:3001/api/v1/comments', {
+      fetch('/api/v1/comments', {
         method: 'POST',
         body: JSON.stringify(sendComment),
         headers: {

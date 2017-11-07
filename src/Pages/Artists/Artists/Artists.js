@@ -26,13 +26,13 @@ export default class Artists extends Component {
   }
 
   fetchArtists() {
-    return fetch('http://localhost:3001/api/v1/users')
+    return fetch('/api/v1/users')
       .then(response => response.json())
       .then(artists => artists);
   }
 
   fetchImages() {
-    return fetch('http://localhost:3001/api/v1/images')
+    return fetch('/api/v1/images')
       .then(response => response.json())
       .then(images => images);
   }
@@ -78,7 +78,7 @@ export default class Artists extends Component {
   sortByPopularity() {
     const { artists } = this.state;
     const artistPromises = artists.map(artist =>
-      fetch(`http://localhost:3001/api/v1/followers/${artist.id}`)
+      fetch(`/api/v1/followers/${artist.id}`)
         .then(response => response.json())
         .then(followers => ({
           followers: followers.length || 0,

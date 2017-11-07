@@ -10,6 +10,7 @@ const db = require('knex')(configuration);
 const cors = require('express-cors');
 
 app.locals.title = 'Graffiti Graffix';
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());

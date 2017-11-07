@@ -24,7 +24,7 @@ class Navigation extends Component {
   }
 
   fetchUID(googleUID) {
-    fetch(`http://localhost:3001/api/v1/users/auth/${googleUID}`)
+    fetch(`/api/v1/users/auth/${googleUID}`)
       .then(response => response.json())
       .then(parsedResponse => this.handleUIDCheck(parsedResponse))
       .catch(error => console.log(error));
