@@ -9,7 +9,6 @@ import Profile from '../Pages/Artists/Profile/Profile';
 
 const App = () =>
   (<div className="App">
-    <Navigation />
     <Route exact path="/" render={() => {
         return (
           <div>
@@ -19,9 +18,33 @@ const App = () =>
         )
       }
     } />
-    <Route exact path="/artists" component={Artists} />
-    <Route exact path="/signup" component={SignUp} />
-    <Route exact path="/profile" component={Profile} />
+  <Route exact path="/artists" render={() => {
+        return (
+          <div>
+            <Navigation />
+            <Artists />
+          </div>
+        )
+      }
+    } />
+  <Route exact path="/signup" render={() => {
+        return (
+          <div>
+            <Navigation />
+            <SignUp />
+          </div>
+        )
+      }
+    } />
+  <Route exact path="/profile" render={() => {
+        return (
+          <div>
+            <Navigation />
+            <Profile />
+          </div>
+        )
+      }
+    } />
    </div>);
 
 export default App;
