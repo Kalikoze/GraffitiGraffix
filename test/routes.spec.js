@@ -168,8 +168,9 @@ describe('API Routes', () => {
         response.should.have.status(200);
         response.should.be.json;
         response.body.should.be.a('array');
-        response.body[0].should.include(mockData[0]);
-        response.body[1].should.include(mockData[1]);
+        response.body.length.should.equal(2);
+        response.body.filter(image => image.user_id === 1).length.should.equal(2);
+        response.body.filter(image => image.user_id !== 1).length.should.equal(0);
         done();
       });
     });
@@ -329,6 +330,7 @@ describe('API Routes', () => {
       const mockData = {
         id: 4,
         comment: 'Testing Foo Bar',
+        username: 'Kalikoze',
         user_id: 1,
         image_id: 2,
       };
@@ -351,13 +353,14 @@ describe('API Routes', () => {
         .post('/api/v1/comments')
         .send({
           id: 4,
+          user_id: 1,
           comment: 'Testing Foo Bar',
           image_id: 2,
         })
         .end((error, response) => {
           response.should.have.status(422);
           response.body.error.should.equal(
-            `Expected format: {'comment': <string>, 'user_id': <integer>, 'image_id': <integer>}.  You are missing a user_id property.`
+            `Expected format: {'comment': <string>, 'username': <string>, 'user_id': <integer>, 'image_id': <integer>}.  You are missing a username property.`
           );
           done();
         });
