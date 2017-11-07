@@ -153,14 +153,12 @@ class Profile extends Component {
         follower.follower_id === follower_id,
     );
 
-    console.log(isFollowed);
-
     return isFollowed !== -1 ? this.unfollowArtist() : this.followArtist();
   }
 
   render() {
     const { clickedArtist } = this.props;
-    const { addImage, followStatus, showImage } = this.state;
+    const { addImage, followStatus, showImage, images, followers } = this.state;
     const { tag, name, username, shortBio } = clickedArtist;
     const followText = followStatus ? 'Unfollow' : 'Follow';
 
@@ -185,44 +183,11 @@ class Profile extends Component {
               {shortBio}
             </p>
           </section>
-          <section className="artist-stats">
-            <svg style={{ height: 0 }}>
-              <defs>
-                <linearGradient id="myGradient">
-                  <stop offset="0%" stopColor="red" />
-                  <stop offset="25%" stopColor="red" />
-                  <stop offset="25%" stopColor="orange" />
-                  <stop offset="50%" stopColor="orange" />
-                  <stop offset="50%" stopColor="gold" />
-                  <stop offset="75%" stopColor="gold" />
-                  <stop offset="75%" stopColor="yellow" />
-                  <stop offset="100%" stopColor="yellow" />
-                </linearGradient>
-              </defs>
-            </svg>
-            <VictoryChart theme={VictoryTheme.material}>
-              <VictoryArea
-                animate={{
-                  duration: 2000,
-                  onLoad: { duration: 1000 },
-                  onEnter: { duration: 500, before: () => ({ y: 0 }) },
-                }}
-                x="day"
-                y="fire"
-                style={{
-                  data: { fill: 'url(#myGradient)' },
-                }}
-                data={[
-                  { day: 1, fire: 2 },
-                  { day: 2, fire: 3 },
-                  { day: 3, fire: 7 },
-                  { day: 4, fire: 4 },
-                  { day: 4, fire: 8 },
-                  { day: 4, fire: 4 },
-                  { day: 5, fire: 5 },
-                ]}
-              />
-            </VictoryChart>
+          <section className='artist-count'>
+            <h4 className="followers-title">Followers</h4>
+            <p className='followers-count'>{followers.length || 0}</p>
+            <h4 className="images-title">Images</h4>
+            <p className='images-count'>{images.length || 0}</p>
           </section>
         </section>
         <section className="artist-profile-images">

@@ -19,7 +19,7 @@
 
 .artist-user,
 .artist-bio,
-.artist-stats {
+.artist-count {
   align-items: center;
   background-color: rgba(0, 0, 0, 0.2);
   display: flex;
@@ -29,17 +29,24 @@
 }
 
 .artist-user {
+  display: flex;
   font-family: 'SamsungSharpSans-Bold';
+  flex-wrap: wrap;
   flex-direction: column;
 }
 
-.artist-tag {
-  height: 20vw;
-  object-fit: fill;
-  width: 32vw;
+.artist-user p {
+  align-items: center;
+  display: flex;
+  height: 15%;
+  justify-content: center;
+  margin: 0;
+  width: 100%;
 }
 
-.victory-chart {
+.artist-tag {
+  height: 70%;
+  object-fit: fill;
   width: 100%;
 }
 
