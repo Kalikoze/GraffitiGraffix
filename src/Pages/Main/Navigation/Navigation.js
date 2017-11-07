@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink, Redirect } from 'react-router-dom';
 import { signIn, signOut } from '../../../firebase';
+import Popup from '../../Popup/Popup';
 import './Navigation.css';
 import NavigationContainer from '../../../containers/NavigationContainer';
 
@@ -12,7 +13,9 @@ class Navigation extends Component {
       signInClicked: false,
       signOutClicked: false,
       foundArtist: false,
+      showPopup: false
     };
+    this.showPopup = this.showPopup.bind(this)
   }
 
   componentDidMount() {
@@ -73,13 +76,19 @@ class Navigation extends Component {
     const foundArtist = artists.filter(artist => artist.username.toLowerCase() === search.toLowerCase());
 
     if(e.keyCode === 13 && currentUser.id && foundArtist[0]) {
-      this.setState({search: '', foundArtist: true});
+      this.setState({foundArtist: true, search: ''});
       fetchClickedArtist(foundArtist[0].id)
+    } else if (e.keyCode === 13 && !currentUser.id) {
+      this.setState({showPopup: true, search: ''});
     }
   }
 
+  showPopup() {
+    this.setState({showPopup: false});
+  }
+
   render() {
-    const { search, signInClicked, signOutClicked, foundArtist } = this.state;
+    const { search, signInClicked, signOutClicked, foundArtist, showPopup } = this.state;
     const { currentUser, fetchClickedArtist } = this.props;
     const userStatus = currentUser.id ? 'Sign Out' : 'Sign In';
 
@@ -135,6 +144,8 @@ class Navigation extends Component {
             {userStatus}
           </NavLink>
         </div>
+
+        {showPopup && <Popup showPopup={this.showPopup} />}
       </nav>
     );
   }

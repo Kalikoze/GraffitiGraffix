@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Filter from '../Filter/Filter';
 import './Artists.css';
 import SingleArtist from '../SingleArtist/SingleArtist';
+import Popup from '../../Popup/Popup';
 import NavigationContainer from '../../../containers/NavigationContainer';
 import missingImg from '../assets/missingImg.jpg';
 import missingTag from '../assets/missing-tag.png';
@@ -17,6 +18,7 @@ class Artists extends Component {
     this.sortAlphabetically = this.sortAlphabetically.bind(this);
     this.sortByPopularity = this.sortByPopularity.bind(this);
     this.clickArtist = this.clickArtist.bind(this);
+    this.showPopup = this.showPopup.bind(this);
   }
 
   componentDidMount() {
@@ -119,6 +121,10 @@ class Artists extends Component {
     }
   }
 
+  showPopup() {
+    this.setState({showPopup: false})
+  }
+
   render() {
     const { currentUser } = this.props;
     const { showPopup } = this.state;
@@ -134,11 +140,7 @@ class Artists extends Component {
           sortByPopularity={this.sortByPopularity}
         />
         {artistList}
-        {showPopup &&
-          <article className="popup">
-            <p className="popup-txt">You need to be signed in to view this artist</p>
-            <button onClick={() => this.setState({ showPopup: false })}>Close</button>
-          </article>}
+        {showPopup && <Popup showPopup={this.showPopup}/>}
       </section>
     );
   }
