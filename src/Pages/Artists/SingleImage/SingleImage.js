@@ -26,14 +26,14 @@ class SingleImage extends Component {
   displayComments() {
     return this.state.comments.map(comment =>
       (<p key={comment.id}>
-        {comment.comment}
+        <span className="comment-username">{comment.username}: </span>{comment.comment}
        </p>),
     );
   }
 
   submitComment(e) {
     if (e.keyCode === 13) {
-      const { id: user_id } = this.props.currentUser;
+      const { id: user_id, username } = this.props.currentUser;
       const { id: image_id } = this.props.clickedImage;
       const { newComment: comment, comments } = this.state;
 
@@ -41,6 +41,7 @@ class SingleImage extends Component {
         user_id,
         comment,
         image_id,
+        username,
       };
 
       fetch('/api/v1/comments', {
