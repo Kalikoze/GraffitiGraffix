@@ -62,7 +62,7 @@ class Navigation extends Component {
 
   render() {
     const { search, signInClicked } = this.state;
-    const { currentUser } = this.props;
+    const { currentUser, fetchClickedArtist } = this.props;
     const userStatus = currentUser.id ? 'Sign Out' : 'Sign In';
 
     if (!currentUser.id && signInClicked) {
@@ -79,14 +79,14 @@ class Navigation extends Component {
         />
 
         <div className="nav-section">
-          <NavLink to="/" className="news-link link">
-            News
+          <NavLink to="/" className="home-link link">
+            Home
           </NavLink>
         </div>
 
         <div className="nav-section">
-          <NavLink to="/" className="whats-hot-link link">
-            {"What's Hot"}
+          <NavLink to="/profile" onClick={() => fetchClickedArtist(currentUser.id)} className="profile-link link">
+            Profile
           </NavLink>
         </div>
 

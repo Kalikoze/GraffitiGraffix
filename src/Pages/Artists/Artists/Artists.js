@@ -87,7 +87,7 @@ export default class Artists extends Component {
     );
 
     Promise.all(artistPromises).then(fetchedArtists => {
-      const newArtists = this.state.fetchedArtists.map(artist => {
+      const newArtists = this.state.artists.map(artist => {
         fetchedArtists.forEach(followerObject => {
           if (followerObject.artist_id === artist.id) {
             artist = Object.assign({}, artist, {

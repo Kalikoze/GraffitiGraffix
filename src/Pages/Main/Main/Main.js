@@ -6,12 +6,12 @@ import audio from '../assets/Insane-In-The-Brain.mp3';
 import PaintSplashLeft from '../assets/paint-splash-left.gif';
 import PaintsplashRight from '../assets/splash-paint-right.png';
 import PaintExplosion from '../assets/paint-explosion.png';
+// <audio src={audio} autoPlay />
 
 const Main = () =>
   (<div className="main">
     <section className="l-above-fold">
       <video src={GraffitiGraffix} autoPlay loop />
-      <audio src={audio} autoPlay />
     </section>
     <section className="title">
       <h1>Graffiti Graffix</h1>
