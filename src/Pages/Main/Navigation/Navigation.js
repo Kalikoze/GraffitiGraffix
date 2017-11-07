@@ -11,6 +11,7 @@ class Navigation extends Component {
       search: '',
       signInClicked: false,
       signOutClicked: false,
+      foundArtist: false,
     };
   }
 
@@ -66,8 +67,19 @@ class Navigation extends Component {
     return currentUser.id ? this.signOutUser() : this.sendSignInData()
   }
 
+  searchArtist(e) {
+    const { currentUser, artists, fetchClickedArtist } = this.props;
+    const { search } = this.state;
+    const foundArtist = artists.filter(artist => artist.username.toLowerCase() === search.toLowerCase());
+
+    if(e.keyCode === 13 && currentUser.id && foundArtist[0]) {
+      this.setState({search: '', foundArtist: true});
+      fetchClickedArtist(foundArtist[0].id)
+    }
+  }
+
   render() {
-    const { search, signInClicked, signOutClicked } = this.state;
+    const { search, signInClicked, signOutClicked, foundArtist } = this.state;
     const { currentUser, fetchClickedArtist } = this.props;
     const userStatus = currentUser.id ? 'Sign Out' : 'Sign In';
 
@@ -79,6 +91,10 @@ class Navigation extends Component {
       return <Redirect to="/" />;
     }
 
+    if(foundArtist) {
+      return <Redirect to="/profile" />
+    }
+
 
     return (
       <nav>
@@ -86,7 +102,7 @@ class Navigation extends Component {
           value={search}
           placeholder="Search for artist..."
           onChange={e => this.setState({ search: e.target.value })}
-
+          onKeyDown={e => this.searchArtist(e)}
           className="search-bar"
         />
 
