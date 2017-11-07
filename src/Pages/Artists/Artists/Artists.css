@@ -4,13 +4,3 @@
   position: relative;
   top: 8vh;
 }
-
-.popup {
-  background-color: rgba(0,0,0,0.8);
-  height: 100%;
-  position: absolute;
-  width: 100%
-}
-.popup-txt {
-  color: white;
-}

@@ -46,3 +46,14 @@ export const storeClickedImage = (url, id) => ({
   url,
   id,
 });
+
+export const storeAllArtists = artists => ({
+  type: 'STORE_ALL_ARTISTS',
+  artists,
+})
+
+export const fetchAllArtists = () => dispatch => {
+  fetch('/api/v1/users').then(response => response.json())
+    .then(users => dispatch(storeAllArtists(users)))
+    .catch(error => console.log(error))
+}
