@@ -80,6 +80,8 @@ class Navigation extends Component {
       fetchClickedArtist(foundArtist[0].id)
     } else if (e.keyCode === 13 && !currentUser.id) {
       this.setState({showPopup: true, search: ''});
+    } else if (e.keyCode === 13 && currentUser.id){
+      this.setState({showPopup: true, search: ''});
     }
   }
 
@@ -145,7 +147,8 @@ class Navigation extends Component {
           </NavLink>
         </div>
 
-        {showPopup && <Popup showPopup={this.showPopup} />}
+        {showPopup && !currentUser.id && <Popup popupText={'signin'} showPopup={this.showPopup}/>}
+        {showPopup && currentUser.id && <Popup popupText={'nouser'} showPopup={this.showPopup}/>}
       </nav>
     );
   }
