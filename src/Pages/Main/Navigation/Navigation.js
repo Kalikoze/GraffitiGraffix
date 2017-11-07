@@ -15,6 +15,7 @@ class Navigation extends Component {
   }
 
   componentDidMount() {
+    const { fetchAllArtists } = this.props;
     const storageKeys = Object.keys(localStorage);
     const firebaseKey = storageKeys.filter(key => key.includes('firebase'));
 
@@ -22,6 +23,7 @@ class Navigation extends Component {
       const parsedUser = JSON.parse(localStorage.getItem(firebaseKey[0]));
       this.fetchUID(parsedUser.uid);
     }
+    fetchAllArtists();
   }
 
   fetchUID(googleUID) {
@@ -84,6 +86,7 @@ class Navigation extends Component {
           value={search}
           placeholder="Search for artist..."
           onChange={e => this.setState({ search: e.target.value })}
+
           className="search-bar"
         />
 
