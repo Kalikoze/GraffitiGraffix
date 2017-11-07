@@ -2,18 +2,21 @@ import React, { Component } from 'react';
 import Filter from '../Filter/Filter';
 import './Artists.css';
 import SingleArtist from '../SingleArtist/SingleArtist';
+import NavigationContainer from '../../../containers/NavigationContainer';
 import missingImg from '../assets/missingImg.jpg';
 import missingTag from '../assets/missing-tag.png';
 
-export default class Artists extends Component {
+class Artists extends Component {
   constructor() {
     super();
     this.state = {
       artists: [],
+      showPopup: false
     };
     this.sortNewest = this.sortNewest.bind(this);
     this.sortAlphabetically = this.sortAlphabetically.bind(this);
     this.sortByPopularity = this.sortByPopularity.bind(this);
+    this.clickArtist = this.clickArtist.bind(this);
   }
 
   componentDidMount() {
@@ -87,7 +90,7 @@ export default class Artists extends Component {
     );
 
     Promise.all(artistPromises).then(fetchedArtists => {
-      const newArtists = this.state.fetchedArtists.map(artist => {
+      const newArtists = this.state.artists.map(artist => {
         fetchedArtists.forEach(followerObject => {
           if (followerObject.artist_id === artist.id) {
             artist = Object.assign({}, artist, {
@@ -104,9 +107,23 @@ export default class Artists extends Component {
     });
   }
 
+  clickArtist(e) {
+    const { currentUser, fetchClickedArtist } = this.props;
+
+    if (currentUser.id) {
+      fetchClickedArtist(e.currentTarget.dataset.artist);
+    } else {
+      this.setState({
+        showPopup: true
+      })
+    }
+  }
+
   render() {
+    const { currentUser } = this.props;
+    const { showPopup } = this.state;
     const artistList = this.state.artists.map((artist, i) =>
-      <SingleArtist key={i} {...artist} />,
+      <SingleArtist key={i} clickArtist={this.clickArtist} {...artist} />,
     );
 
     return (
@@ -117,7 +134,14 @@ export default class Artists extends Component {
           sortByPopularity={this.sortByPopularity}
         />
         {artistList}
+        {showPopup &&
+          <article className="popup">
+            <p className="popup-txt">You need to be signed in to view this artist</p>
+            <button onClick={() => this.setState({ showPopup: false })}>Close</button>
+          </article>}
       </section>
     );
   }
 }
+
+export default NavigationContainer(Artists);

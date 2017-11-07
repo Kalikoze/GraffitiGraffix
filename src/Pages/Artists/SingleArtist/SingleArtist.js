@@ -8,7 +8,8 @@ const SingleArtist = ({
   username,
   tag,
   latestImages,
-  fetchClickedArtist,
+  clickArtist,
+  currentUser
 }) => {
   const images = latestImages.map(img =>
     (<img
@@ -19,17 +20,15 @@ const SingleArtist = ({
     />),
   );
 
-  const storeClickedArtist = e => {
-    fetchClickedArtist(e.currentTarget.dataset.artist);
-  };
+  const path = currentUser.id ? '/profile' : '/artists';
 
   return (
     <article className="l-single-artist">
       <Link
         className="l-name-tag"
-        to="/profile"
+        to={path}
         data-artist={id}
-        onClick={e => storeClickedArtist(e)}
+        onClick={e => clickArtist(e)}
       >
         <h3 className="single-artist-name">
           {username}

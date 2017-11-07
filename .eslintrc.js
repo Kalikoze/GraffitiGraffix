@@ -11,7 +11,7 @@ module.exports = {
   },
   rules: {
     'no-console': 0,
-    camelcase: 0,
+    'camelcase': 0,
     'react/jsx-filename-extension': 0,
     'jsx-a11y/no-noninteractive-element-interactions': 'off',
     'jsx-a11y/click-events-have-key-events': 'off',
