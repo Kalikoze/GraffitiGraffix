@@ -9,3 +9,9 @@ test:
   override:
     - ./node_modules/.bin/mocha --exit
     - react-scripts test --env=jsdom
+
+deployment:
+  production:
+    branch: master
+    heroku:
+      appname: graffiti-graffix
