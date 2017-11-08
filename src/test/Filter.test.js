@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { shallow, mount, render, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import Filter from '../src/Pages/Artists/Filter/Filter';
+import Filter from '../Pages/Artists/Filter/Filter';
 
 configure({ adapter: new Adapter() });
 
