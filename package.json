@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "react-scripts start",
-    "heroku-postbuild": "react-scripts build",
+    "build": "react-scripts build",
     "test-backend": "NODE_ENV=test ./node_modules/.bin/mocha --exit",
     "test-frontend": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
