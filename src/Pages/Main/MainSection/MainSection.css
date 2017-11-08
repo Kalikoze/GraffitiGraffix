@@ -10,11 +10,30 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  letter-spacing: 1.4px;
+  line-height: 1.5;
+  padding: 0 50px;
   width: 50%;
 }
 
+.latest, .experience {
+  background-color: #000;
+  color: #FFF;
+}
+
+.seen {
+  background-color: #FFF;
+  color: #000;
+}
+
 .content h2 {
-  font-size: 50px;
+  font-size: 5vw;
+  line-height: 1.2;
+  margin-bottom: 0;
+}
+
+.content p {
+  font-size: 1.8vw;
 }
 
 .main-section-image {
@@ -26,6 +45,10 @@
   object-fit: cover;
 }
 
-.whats-hot img {
+.seen img{
   object-fit: contain;
+}
+
+.experience img {
+  object-fit: cover;
 }

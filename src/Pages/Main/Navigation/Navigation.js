@@ -117,35 +117,35 @@ class Navigation extends Component {
           className="search-bar"
         />
 
-        <div className="nav-section">
-          <NavLink to="/" className="home-link link">
+      <NavLink to="/" className="nav-section">
+        <div className="home-link link">
             Home
-          </NavLink>
         </div>
+      </NavLink>
 
-        <div className="nav-section">
-          <NavLink to="/artists" className="artists-link link">
+      <NavLink to="/artists" className="nav-section">
+        <div className="artists-link link">
             Artists
-          </NavLink>
         </div>
+      </NavLink>
 
         { currentUser.id &&
-          <div className="nav-section">
-            <NavLink to="/profile" onClick={() => fetchClickedArtist(currentUser.id)} className="profile-link link">
+          <NavLink to="/profile" onClick={() => fetchClickedArtist(currentUser.id)} className="nav-section">
+          <div className="profile-link link">
               Profile
-            </NavLink>
           </div>
+        </NavLink>
         }
 
-        <div className="nav-section">
-          <NavLink
-            to="/"
-            className="sign-up-link link"
-            onClick={() => this.signInSignOut()}
+        <NavLink
+          to="/"
+          className="nav-section"
+          onClick={() => this.signInSignOut()}
           >
+        <div className="sign-up-link link">
             {userStatus}
-          </NavLink>
         </div>
+      </NavLink>
 
         {showPopup && !currentUser.id && <Popup popupText={'signin'} showPopup={this.showPopup}/>}
         {showPopup && currentUser.id && <Popup popupText={'nouser'} showPopup={this.showPopup}/>}

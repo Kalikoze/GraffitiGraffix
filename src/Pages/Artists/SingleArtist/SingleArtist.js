@@ -23,22 +23,22 @@ const SingleArtist = ({
   const path = currentUser.id ? '/profile' : '/artists';
 
   return (
-    <article className="l-single-artist">
-      <Link
-        className="l-name-tag"
-        to={path}
-        data-artist={id}
-        onClick={e => clickArtist(e)}
+    <Link
+      className="l-single-artist"
+      to={path}
+      data-artist={id}
+      onClick={e => clickArtist(e)}
       >
+      <article className="l-name-tag">
         <h3 className="single-artist-name">
           {username}
         </h3>
         <img className="single-artist-tag" src={tag} alt="artist tag" />
-      </Link>
+      </article>
       <div className="l-single-artist-images">
         {images}
       </div>
-    </article>
+  </Link>
   );
 };
 

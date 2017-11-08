@@ -1,5 +1,44 @@
 .add-image {
-  background-color: blue;
-  height: 200px;
-  width: 200px;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  z-index: 10;
+}
+
+.image-input-container {
+  align-items: flex-start;
+  border: 2px solid white;
+  display: flex;
+  flex-direction: column;
+  padding: 35px;
+}
+
+.image-input-container label {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.image-input-container input {
+  font-size: 25px;
+  margin-bottom: 20px;
+  padding: 5px;
+}
+
+.image-input-container button {
+  border: 2px solid white;
+  color: white;
+  font-size: 20px;
+  margin-bottom: 20px;
+  padding: 10px;
+  width: 100%
+}
+
+.image-input-container button:hover {
+  background-color: white;
+  color: black;
 }
