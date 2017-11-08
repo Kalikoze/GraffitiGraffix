@@ -80,7 +80,7 @@ class SingleImage extends Component {
             onKeyDown={e => this.submitComment(e)}
           />
         </article>
-        <button onClick={() => toggleImage(null, null)}>X</button>
+        <button className="close-btn" onClick={() => toggleImage(null, null)}>CLOSE</button>
       </section>
     );
   }
