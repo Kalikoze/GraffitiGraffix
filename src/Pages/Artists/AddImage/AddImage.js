@@ -16,21 +16,23 @@ class AddImage extends Component {
 
     return (
       <article className="add-image">
-        <label htmlFor="add-image-input">Image URL:</label>
-        <input
-          type="text"
-          id="add-image-input"
-          placeholder="Paste Image URL Here"
-          value={url}
-          onChange={e => this.setState({ url: e.target.value })}
-        />
-        <button
-          className="add-image-btn"
-          onClick={() => addImage(url)}
-          disabled={isDisabled}
-        >
-          Add Image
-        </button>
+        <div className="image-input-container">
+          <label htmlFor="add-image-input">Image URL:</label>
+          <input
+            type="text"
+            id="add-image-input"
+            placeholder="Paste Image URL Here"
+            value={url}
+            onChange={e => this.setState({ url: e.target.value })}
+            />
+          <button
+            className="add-image-btn"
+            onClick={() => addImage(url)}
+            disabled={isDisabled}
+            >
+            Add Image
+          </button>
+        </div>
       </article>
     );
   }

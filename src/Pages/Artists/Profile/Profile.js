@@ -199,8 +199,8 @@ class Profile extends Component {
         </section>
         <section className="artist-profile-images">
           {this.displayImages()}
-          {addImage && <AddImage addImage={this.addImage} />}
         </section>
+        {addImage && <AddImage addImage={this.addImage} />}
         {showImage && <SingleImage toggleImage={this.toggleImage} />}
       </section>
     );
