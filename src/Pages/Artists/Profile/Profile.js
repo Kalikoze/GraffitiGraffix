@@ -18,6 +18,7 @@ class Profile extends Component {
     };
     this.addImage = this.addImage.bind(this);
     this.toggleImage = this.toggleImage.bind(this);
+    this.closeWindow = this.closeWindow.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -61,6 +62,10 @@ class Profile extends Component {
   toggleImage(url, id) {
     this.props.storeClickedImage(url, id);
     this.setState({ showImage: !this.state.showImage });
+  }
+
+  closeWindow() {
+    this.setState({ addImage: false })
   }
 
   displayImages() {
@@ -200,7 +205,7 @@ class Profile extends Component {
         <section className="artist-profile-images">
           {this.displayImages()}
         </section>
-        {addImage && <AddImage addImage={this.addImage} />}
+        {addImage && <AddImage addImage={this.addImage} closeWindow={this.closeWindow}/>}
         {showImage && <SingleImage toggleImage={this.toggleImage} />}
       </section>
     );

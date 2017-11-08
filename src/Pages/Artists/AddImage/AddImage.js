@@ -11,7 +11,7 @@ class AddImage extends Component {
 
   render() {
     const { url } = this.state;
-    const { addImage } = this.props;
+    const { addImage, closeWindow } = this.props;
     const isDisabled = !url;
 
     return (
@@ -31,6 +31,12 @@ class AddImage extends Component {
             disabled={isDisabled}
             >
             Add Image
+          </button>
+          <button
+            className="add-image-btn"
+            onClick={() => closeWindow()}
+            >
+            Close
           </button>
         </div>
       </article>
