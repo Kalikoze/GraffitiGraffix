@@ -20,4 +20,26 @@ describe('actions', () => {
 
     expect(action.storeClickedArtist(artist)).toEqual(expectedAction);
   })
+
+  it('should create an action for storeClickedImage', () => {
+    const url = '';
+    const id = 1
+    const expectedAction = {
+      type: 'STORE_CLICKED_IMAGE',
+      url,
+      id,
+    };
+
+    expect(action.storeClickedImage(url, id)).toEqual(expectedAction);
+  })
+
+  it('should create an action for storeAllArtists', () => {
+    const artists = [];
+    const expectedAction = {
+      type: 'STORE_ALL_ARTISTS',
+      artists
+    };
+
+    expect(action.storeAllArtists(artists)).toEqual(expectedAction);
+  })
 })
