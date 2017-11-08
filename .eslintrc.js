@@ -8,6 +8,7 @@ module.exports = {
     beforeEach: 'false',
     before: 'false',
     expect: 'false',
+    jest: 'false',
   },
   rules: {
     'no-console': 0,
