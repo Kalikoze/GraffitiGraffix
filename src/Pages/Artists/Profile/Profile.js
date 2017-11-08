@@ -178,10 +178,6 @@ class Profile extends Component {
             <p>
               {username}
             </p>
-            {!this.verifyUserProfile() &&
-              <button onClick={() => this.checkIfFollowing()}>
-                {followText}
-              </button>}
           </article>
           <section className="artist-bio">
             <p>
@@ -194,6 +190,10 @@ class Profile extends Component {
               <button onClick={() => this.setState({ addImage: true })}>
                 Add Image
               </button>}
+              {!this.verifyUserProfile() &&
+                <button onClick={() => this.checkIfFollowing()}>
+                  {followText}
+                </button>}
           </section>
           <section className='artist-count'>
             <h4 className="count-title">Followers</h4>
