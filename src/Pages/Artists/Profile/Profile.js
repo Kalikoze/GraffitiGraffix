@@ -168,10 +168,10 @@ class Profile extends Component {
           <article className="artist-user">
             <img src={tag} alt="artist tag" className="artist-tag" />
             <p>
-              {username}
+              {name}
             </p>
             <p>
-              {name}
+              {username}
             </p>
             {!this.verifyUserProfile() &&
               <button onClick={() => this.checkIfFollowing()}>
@@ -180,22 +180,25 @@ class Profile extends Component {
           </article>
           <section className="artist-bio">
             <p>
+              <span>Short-Bio:</span>
+              <br />
+              <br />
               {shortBio}
             </p>
+            {this.verifyUserProfile() &&
+              <button onClick={() => this.setState({ addImage: true })}>
+                Add Image
+              </button>}
           </section>
           <section className='artist-count'>
-            <h4 className="followers-title">Followers</h4>
-            <p className='followers-count'>{followers.length || 0}</p>
-            <h4 className="images-title">Images</h4>
-            <p className='images-count'>{images.length || 0}</p>
+            <h4 className="count-title">Followers</h4>
+            <p className='count'>{followers.length || 0}</p>
+            <h4 className="count-title">Images</h4>
+            <p className='count'>{images.length || 0}</p>
           </section>
         </section>
         <section className="artist-profile-images">
           {this.displayImages()}
-          {this.verifyUserProfile() &&
-            <button onClick={() => this.setState({ addImage: true })}>
-              Add Image
-            </button>}
           {addImage && <AddImage addImage={this.addImage} />}
         </section>
         {showImage && <SingleImage toggleImage={this.toggleImage} />}
