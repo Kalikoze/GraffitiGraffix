@@ -30,7 +30,14 @@ class Profile extends Component {
 
     fetch(`/api/v1/followers/${clickedArtist.id}`)
       .then(response => response.json())
-      .then(followers => this.setState({ followers }))
+      .then(followers => {
+
+        if (followers.length) {
+          this.setState({ followers }, () => {
+            this.checkIfFollowing(true)
+          })
+        }
+      })
       .catch(error => console.log({ error }));
   }
 
@@ -147,7 +154,7 @@ class Profile extends Component {
     });
   }
 
-  checkIfFollowing() {
+  checkIfFollowing(onLoad) {
     const { followers } = this.state;
     const { id: artist_id } = this.props.clickedArtist;
     const { id: follower_id } = this.props.currentUser;
@@ -157,6 +164,10 @@ class Profile extends Component {
         follower.artist_id === artist_id &&
         follower.follower_id === follower_id,
     );
+
+    if (onLoad) {
+      return this.setState({ followStatus: true });
+    }
 
     return isFollowed !== -1 ? this.unfollowArtist() : this.followArtist();
   }
@@ -178,10 +189,6 @@ class Profile extends Component {
             <p>
               {username}
             </p>
-            {!this.verifyUserProfile() &&
-              <button onClick={() => this.checkIfFollowing()}>
-                {followText}
-              </button>}
           </article>
           <section className="artist-bio">
             <p>
@@ -194,6 +201,10 @@ class Profile extends Component {
               <button onClick={() => this.setState({ addImage: true })}>
                 Add Image
               </button>}
+              {!this.verifyUserProfile() &&
+                <button onClick={() => this.checkIfFollowing()}>
+                  {followText}
+                </button>}
           </section>
           <section className='artist-count'>
             <h4 className="count-title">Followers</h4>

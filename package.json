@@ -5,6 +5,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "heroku-postbuild": "npm run build",
     "test-backend": "NODE_ENV=test ./node_modules/.bin/mocha --exit",
     "test-frontend": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
