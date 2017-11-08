@@ -16,7 +16,7 @@ describe('App component', () => {
     expect(wrapper.find('div.App').length).toEqual(1);
   });
 
-  it('should render a Navigation component', () => {
+  it.skip('should render a Navigation component', () => {
     expect(wrapper.find(Navigation).length).toEqual(1);
   });
 

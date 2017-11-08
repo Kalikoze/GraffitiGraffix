@@ -24,18 +24,18 @@ class AddImage extends Component {
             placeholder="Paste Image URL Here"
             value={url}
             onChange={e => this.setState({ url: e.target.value })}
-            />
+          />
           <button
             className="add-image-btn"
             onClick={() => addImage(url)}
             disabled={isDisabled}
-            >
+          >
             Add Image
           </button>
           <button
             className="add-image-btn"
             onClick={() => closeWindow()}
-            >
+          >
             Close
           </button>
         </div>

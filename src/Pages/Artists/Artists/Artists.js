@@ -140,8 +140,8 @@ class Artists extends Component {
           sortByPopularity={this.sortByPopularity}
         />
         {artistList}
-        {showPopup && !currentUser.id && <Popup popupText={'signin'} showPopup={this.showPopup}/>}
-        {showPopup && currentUser.id && <Popup popupText={''} showPopup={this.showPopup}/>}
+        {showPopup && !currentUser.id && <Popup popupText='signin' showPopup={this.showPopup} />}
+        {showPopup && currentUser.id && <Popup popupText='' showPopup={this.showPopup} />}
       </section>
     );
   }
