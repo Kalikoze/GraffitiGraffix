@@ -1,4 +1,6 @@
 import * as action from '../actions/index';
+import MockUserData from '../../db/seeds/MockSeedData/MockUserData';
+import fetchMock from 'fetch-mock';
 
 describe('actions', () => {
   it('should create an action for storeCurrentUser', () => {
@@ -41,5 +43,15 @@ describe('actions', () => {
     };
 
     expect(action.storeAllArtists(artists)).toEqual(expectedAction);
+  })
+
+  it('should create an action for fetchAllArtists', () => {
+    fetchMock.get('/api/v1/users', {
+      status: 200,
+      body: MockUserData
+    })
+
+    expect(fetchMock.routes[0].method).toEqual('GET');
+    expect(fetchMock.routes[0].response.body).toEqual(MockUserData);
   })
 })
