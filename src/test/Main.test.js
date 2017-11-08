@@ -1,16 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Main from '../Pages/Main/Main/Main';
-import MainSection from '../Pages/Main/MainSection/MainSection';
 import { shallow, mount, render, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import Main from '../Pages/Main/Main/Main';
+import MainSection from '../Pages/Main/MainSection/MainSection';
 
 configure({ adapter: new Adapter() });
-
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<Main />, div);
-});
 
 describe('Main component', () => {
   let wrapper;

@@ -1,15 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import MainSection from '../Pages/Main/MainSection/MainSection';
 import { shallow, mount, render, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import MainSection from '../Pages/Main/MainSection/MainSection';
 
 configure({ adapter: new Adapter() });
-
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<MainSection />, div);
-});
 
 describe('MainSection component', () => {
   let wrapper;
@@ -17,10 +12,10 @@ describe('MainSection component', () => {
   beforeEach(() => {
     wrapper = mount(
       <MainSection
-        articleClass={'test-class'}
-        src={'url'}
-        title={'Test Title'}
-        info={'Test info'}
+        articleClass='test-class'
+        src='url'
+        title='Test Title'
+        info='Test info'
       />
     );
   });
