@@ -21,6 +21,13 @@ class Profile extends Component {
     this.closeWindow = this.closeWindow.bind(this);
   }
 
+  componentDidMount() {
+    const { storeClickedArtist } = this.props;
+    const artist = JSON.parse(localStorage.getItem('artist'));
+
+    storeClickedArtist(artist);
+  }
+
   componentWillReceiveProps(nextProps) {
     const { clickedArtist } = nextProps;
 
