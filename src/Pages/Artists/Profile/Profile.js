@@ -66,6 +66,14 @@ class Profile extends Component {
     });
   }
 
+  deleteImage(e) {
+    const id = e.target.dataset.id;
+
+    fetch(`/api/v1/images/${id}`, {
+      method: "DELETE"
+    }).then(() => this.setState({images: this.state.images.filter(image => image.id !== parseInt(id, 10))}))
+  }
+
   toggleImage(url, id) {
     this.props.storeClickedImage(url, id);
     this.setState({ showImage: !this.state.showImage });
@@ -83,13 +91,17 @@ class Profile extends Component {
     }
 
     return images.map(image =>
-      (<img
-        onClick={() => this.toggleImage(image.url, image.id)}
-        className="profile-imgs"
-        key={image.id}
-        src={`${image.url}`}
-        alt=""
-      />),
+      (
+        <div className="image-container">
+          <img
+            onClick={() => this.toggleImage(image.url, image.id)}
+            className="profile-imgs"
+            key={image.id}
+            src={`${image.url}`}
+            alt=""
+          />
+          <button className="delete-img" onClick={e => this.deleteImage(e)} data-id={image.id}>X</button>
+        </div>),
     );
   }
 

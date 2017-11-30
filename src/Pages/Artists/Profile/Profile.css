@@ -111,6 +111,12 @@
   padding: 10px;
 }
 
+.delete-img {
+  color: white;
+  font-size: 2vw;
+  z-index: 5;
+}
+
 button {
   border: none;
   background: none;
