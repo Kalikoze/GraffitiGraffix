@@ -10,11 +10,11 @@ class Profile extends Component {
     super(props);
     this.state = {
       images: [],
-      data: [],
       followers: [],
       addImage: false,
       followStatus: false,
       showImage: false,
+      addImgErr: false,
     };
     this.addImage = this.addImage.bind(this);
     this.toggleImage = this.toggleImage.bind(this);
@@ -63,8 +63,13 @@ class Profile extends Component {
       },
     })
       .then(response => response.json())
-      .then(parsedResponse => this.addImageToState(parsedResponse[0]))
-      .then(() => this.closeWindow())
+      .then(parsedResponse => {
+        if (parsedResponse.error) {
+          return this.setState({addImgErr: true});
+        }
+        this.addImageToState(parsedResponse[0])
+        this.closeWindow()
+      })
       .catch(error => console.log({ error }));
   }
 
@@ -196,7 +201,7 @@ class Profile extends Component {
 
   render() {
     const { clickedArtist } = this.props;
-    const { addImage, followStatus, showImage, images, followers } = this.state;
+    const { addImage, followStatus, showImage, images, followers, addImgErr } = this.state;
     const { tag, name, username, shortBio } = clickedArtist;
     const followText = followStatus ? 'Unfollow' : 'Follow';
 
@@ -220,7 +225,7 @@ class Profile extends Component {
               {shortBio}
             </p>
             {this.verifyUserProfile() &&
-              <button onClick={() => this.setState({ addImage: true })}>
+              <button onClick={() => this.setState({ addImage: true, addImgErr: false })}>
                 Add Image
               </button>}
               {!this.verifyUserProfile() &&
@@ -238,7 +243,7 @@ class Profile extends Component {
         <section className="artist-profile-images">
           {this.displayImages()}
         </section>
-        {addImage && <AddImage addImage={this.addImage} closeWindow={this.closeWindow}/>}
+        {addImage && <AddImage addImage={this.addImage} addImgErr={addImgErr} closeWindow={this.closeWindow}/>}
         {showImage && <SingleImage toggleImage={this.toggleImage} />}
       </section>
     );

@@ -11,7 +11,7 @@ class AddImage extends Component {
 
   render() {
     const { url } = this.state;
-    const { addImage, closeWindow } = this.props;
+    const { addImage, addImgErr, closeWindow } = this.props;
     const isDisabled = !url;
 
     return (
@@ -25,9 +25,10 @@ class AddImage extends Component {
             value={url}
             onChange={e => this.setState({ url: e.target.value })}
           />
+          {addImgErr && <p className="add-img-err">Image already exists.</p>}
           <button
             className="add-image-btn"
-            onClick={() => addImage(url)}
+            onClick={() => (addImage(url), this.setState({url: ''}))}
             disabled={isDisabled}
           >
             Add Image

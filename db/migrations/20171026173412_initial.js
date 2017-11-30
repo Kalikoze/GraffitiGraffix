@@ -12,7 +12,7 @@ exports.up = (knex, Promise) => {
 
     knex.schema.createTable('images', table => {
       table.increments('id').primary();
-      table.string('url');
+      table.string('url').unique();
       table.integer('user_id').unsigned();
       table.foreign('user_id').references('users.id').onDelete('cascade');
 
