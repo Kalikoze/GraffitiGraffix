@@ -123,3 +123,7 @@ button {
   outline-style: none;
   cursor: pointer;
 }
+
+.hide {
+  display: none;
+}
