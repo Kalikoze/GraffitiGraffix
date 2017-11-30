@@ -64,6 +64,7 @@ class Profile extends Component {
     })
       .then(response => response.json())
       .then(parsedResponse => this.addImageToState(parsedResponse[0]))
+      .then(() => this.closeWindow())
       .catch(error => console.log({ error }));
   }
 
