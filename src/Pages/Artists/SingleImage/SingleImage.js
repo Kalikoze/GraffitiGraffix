@@ -33,6 +33,7 @@ class SingleImage extends Component {
 
   submitComment(e) {
     if (e.keyCode === 13) {
+      e.preventDefault()
       const { id: user_id, username } = this.props.currentUser;
       const { id: image_id } = this.props.clickedImage;
       const { newComment: comment, comments } = this.state;

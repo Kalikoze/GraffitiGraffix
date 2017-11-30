@@ -85,6 +85,7 @@ class Profile extends Component {
 
   displayImages() {
     let { images } = this.state;
+    const deleteBtnClass = this.verifyUserProfile() ? 'delete-img' : 'hide'
 
     if (images.error) {
       images = [];
@@ -100,7 +101,7 @@ class Profile extends Component {
             src={`${image.url}`}
             alt=""
           />
-          <button className="delete-img" onClick={e => this.deleteImage(e)} data-id={image.id}>X</button>
+          <button className={deleteBtnClass} onClick={e => this.deleteImage(e)} data-id={image.id}>X</button>
         </div>),
     );
   }
