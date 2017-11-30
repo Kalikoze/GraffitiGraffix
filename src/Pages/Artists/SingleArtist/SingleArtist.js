@@ -9,7 +9,7 @@ const SingleArtist = ({
   tag,
   latestImages,
   clickArtist,
-  currentUser
+  currentUser,
 }) => {
   const images = latestImages.map((img, id) =>
     (<img
@@ -18,7 +18,7 @@ const SingleArtist = ({
       src={img.url}
       alt="latest images"
     />),
-  );
+);
 
   const path = currentUser.id ? '/profile' : '/artists';
 
@@ -28,7 +28,7 @@ const SingleArtist = ({
       to={path}
       data-artist={id}
       onClick={e => clickArtist(e)}
-      >
+    >
       <article className="l-name-tag">
         <h3 className="single-artist-name">
           {username}

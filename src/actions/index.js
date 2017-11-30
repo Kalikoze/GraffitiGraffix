@@ -29,7 +29,8 @@ export const fetchArtistImages = artist => dispatch => {
         storeClickedArtist(
           Object.assign({}, artist, { images: parsedResponse }),
         ),
-      ),
+        localStorage.setItem('artist', JSON.stringify(Object.assign({}, artist, { images: parsedResponse })))
+      )
     )
     .catch(error => console.log(error));
 };

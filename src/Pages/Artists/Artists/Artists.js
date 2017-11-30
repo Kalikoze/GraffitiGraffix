@@ -110,15 +110,19 @@ class Artists extends Component {
   }
 
   clickArtist(e) {
-    const { currentUser, fetchClickedArtist } = this.props;
+    const { currentUser, fetchClickedArtist, clickedArtist} = this.props;
 
     if (currentUser.id) {
-      fetchClickedArtist(e.currentTarget.dataset.artist);
-    } else {
-      this.setState({
-        showPopup: true
-      })
+      return fetchClickedArtist(e.currentTarget.dataset.artist)
     }
+    return this.setState({
+      showPopup: true
+    })
+  }
+
+  storeArtistInLocal() {
+    const { clickedArtist } = this.props;
+    localStorage.setItem('artist', JSON.stringify(clickedArtist))
   }
 
   showPopup() {
