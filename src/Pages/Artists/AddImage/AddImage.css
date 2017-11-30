@@ -42,3 +42,12 @@
   background-color: white;
   color: black;
 }
+
+.add-img-err {
+  color: red;
+  font-size: 2vw;
+  margin: 0;
+  margin-bottom: 20px;
+  text-align: center;
+  width: 100%;
+}
