@@ -21,6 +21,13 @@ class Profile extends Component {
     this.closeWindow = this.closeWindow.bind(this);
   }
 
+  componentDidMount() {
+    const { storeClickedArtist } = this.props;
+    const artist = JSON.parse(localStorage.getItem('artist'));
+
+    storeClickedArtist(artist);
+  }
+
   componentWillReceiveProps(nextProps) {
     const { clickedArtist } = nextProps;
 
@@ -107,8 +114,9 @@ class Profile extends Component {
   }
 
   verifyUserProfile() {
+    const firebaseKey = Object.keys(localStorage).filter(key => key.includes('firebase'))[0];
     const loggedInUserUID = JSON.parse(
-      localStorage.getItem(Object.keys(localStorage)[0]),
+      localStorage.getItem(firebaseKey),
     ).uid;
     const { clickedArtist } = this.props;
 
