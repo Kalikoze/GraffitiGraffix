@@ -11,6 +11,7 @@ class Profile extends Component {
     this.state = {
       images: [],
       followers: [],
+      bio: '',
       addImage: false,
       followStatus: false,
       showImage: false,
@@ -24,8 +25,8 @@ class Profile extends Component {
   componentDidMount() {
     const { storeClickedArtist } = this.props;
     const artist = JSON.parse(localStorage.getItem('artist'));
-
     storeClickedArtist(artist);
+    this.setState({bio: artist.shortBio});
   }
 
   componentWillReceiveProps(nextProps) {
@@ -200,10 +201,11 @@ class Profile extends Component {
   }
 
   render() {
-    const { clickedArtist } = this.props;
-    const { addImage, followStatus, showImage, images, followers, addImgErr } = this.state;
-    const { tag, name, username, shortBio } = clickedArtist;
+    const { clickedArtist, updateBio } = this.props;
+    const { addImage, bio, followStatus, showImage, images, followers, addImgErr } = this.state;
+    const { id, tag, name, username, shortBio } = clickedArtist;
     const followText = followStatus ? 'Unfollow' : 'Follow';
+    console.log(clickedArtist)
 
     return (
       <section className="artist-profile">
@@ -218,12 +220,10 @@ class Profile extends Component {
             </p>
           </article>
           <section className="artist-bio">
-            <p>
-              <span>Short-Bio:</span>
-              <br />
-              <br />
-              {shortBio}
-            </p>
+            <span>Short-Bio:</span>
+            {!this.verifyUserProfile() && <p>{shortBio}</p>}
+            {this.verifyUserProfile() && <textarea onBlur={() => updateBio(clickedArtist, bio)} value={this.state.bio} onChange={e => this.setState({bio: e.target.value})}>
+            </textarea>}
             {this.verifyUserProfile() &&
               <button onClick={() => this.setState({ addImage: true, addImgErr: false })}>
                 Add Image

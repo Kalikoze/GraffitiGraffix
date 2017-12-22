@@ -58,3 +58,20 @@ export const fetchAllArtists = () => dispatch => {
     .then(users => dispatch(storeAllArtists(users)))
     .catch(error => console.log(error))
 }
+
+export const updateBio = (artist, bioText) => dispatch => {
+  const { name, username, tag } = artist;
+  fetch(`/api/v1/users/${artist.id}`, {
+    method: 'PATCH',
+    body: JSON.stringify({name, username, tag, shortBio: bioText}),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).then(response => response.json())
+  .then(response => dispatch(
+    storeClickedArtist(response),
+    storeCurrentUser(response),
+    fetchAllArtists(),
+    localStorage.setItem('artist', JSON.stringify(Object.assign({}, response)))
+  ))
+}
