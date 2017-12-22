@@ -213,10 +213,10 @@ class Profile extends Component {
         <section className="artist-info">
           <article className="artist-user">
             <img src={tag} alt="artist tag" className="artist-tag" />
-            <section className="change-tag">
+            {this.verifyUserProfile() && <section className="change-tag">
               <p>Edit tag url: </p>
               <input onBlur={() => updateProfile(clickedArtist, tagUrl, false)} value={this.state.tag} onChange={e => this.setState({tagUrl: e.target.value})} />
-            </section>
+            </section>}
             <p>
               {name}
             </p>
