@@ -17,6 +17,7 @@ class Profile extends Component {
       followStatus: false,
       showImage: false,
       addImgErr: false,
+      showChangeUrl: false
     };
     this.addImage = this.addImage.bind(this);
     this.toggleImage = this.toggleImage.bind(this);
@@ -203,24 +204,25 @@ class Profile extends Component {
 
   render() {
     const { clickedArtist, updateProfile } = this.props;
-    const { addImage, bio, tagUrl, followStatus, showImage, images, followers, addImgErr } = this.state;
+    const { addImage, bio, tagUrl, followStatus, showImage, images, followers, addImgErr, showChangeUrl } = this.state;
     const { id, tag, name, username, shortBio } = clickedArtist;
     const followText = followStatus ? 'Unfollow' : 'Follow';
-    console.log(clickedArtist)
+    const changeUrlClass = showChangeUrl ? 'change-tag' : 'slide-up';
+    const displayUser = showChangeUrl ? 'hide' : ''
 
     return (
       <section className="artist-profile">
         <section className="artist-info">
           <article className="artist-user">
-            <img src={tag} alt="artist tag" className="artist-tag" />
-            {this.verifyUserProfile() && <section className="change-tag">
+            <img src={tag} alt="artist tag" className="artist-tag" onClick={() => this.setState({showChangeUrl: !showChangeUrl})}/>
+            {this.verifyUserProfile() && <section className={changeUrlClass}>
               <p>Edit tag url: </p>
               <input onBlur={() => updateProfile(clickedArtist, tagUrl, false)} value={this.state.tag} onChange={e => this.setState({tagUrl: e.target.value})} />
             </section>}
-            <p>
+            <p className={displayUser}>
               {name}
             </p>
-            <p>
+            <p className={displayUser}>
               {username}
             </p>
           </article>
