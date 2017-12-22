@@ -59,11 +59,11 @@ export const fetchAllArtists = () => dispatch => {
     .catch(error => console.log(error))
 }
 
-export const updateBio = (artist, bioText) => dispatch => {
-  const { name, username, tag } = artist;
+export const updateProfile = (artist, urlTag, bioText) => dispatch => {
+  const { name, username, tag, shortBio } = artist;
   fetch(`/api/v1/users/${artist.id}`, {
     method: 'PATCH',
-    body: JSON.stringify({name, username, tag, shortBio: bioText}),
+    body: JSON.stringify({name, username, tag: urlTag ? urlTag : tag, shortBio: bioText ? bioText : shortBio}),
     headers: {
       'Content-Type': 'application/json',
     },

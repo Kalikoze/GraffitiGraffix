@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { fetchClickedArtist, storeClickedImage, storeClickedArtist, updateBio } from '../actions/index';
+import { fetchClickedArtist, storeClickedImage, storeClickedArtist, updateProfile } from '../actions/index';
 
 const mapStateToProps = state => ({
   clickedArtist: state.clickedArtist,
@@ -9,6 +9,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ fetchClickedArtist, storeClickedImage, storeClickedArtist, updateBio }, dispatch);
+  bindActionCreators({ fetchClickedArtist, storeClickedImage, storeClickedArtist, updateProfile }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps);

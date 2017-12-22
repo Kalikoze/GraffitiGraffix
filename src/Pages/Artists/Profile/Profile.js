@@ -12,6 +12,7 @@ class Profile extends Component {
       images: [],
       followers: [],
       bio: '',
+      tagUrl: '',
       addImage: false,
       followStatus: false,
       showImage: false,
@@ -26,7 +27,7 @@ class Profile extends Component {
     const { storeClickedArtist } = this.props;
     const artist = JSON.parse(localStorage.getItem('artist'));
     storeClickedArtist(artist);
-    this.setState({bio: artist.shortBio});
+    this.setState({bio: artist.shortBio, tagUrl: artist.tag});
   }
 
   componentWillReceiveProps(nextProps) {
@@ -201,8 +202,8 @@ class Profile extends Component {
   }
 
   render() {
-    const { clickedArtist, updateBio } = this.props;
-    const { addImage, bio, followStatus, showImage, images, followers, addImgErr } = this.state;
+    const { clickedArtist, updateProfile } = this.props;
+    const { addImage, bio, tagUrl, followStatus, showImage, images, followers, addImgErr } = this.state;
     const { id, tag, name, username, shortBio } = clickedArtist;
     const followText = followStatus ? 'Unfollow' : 'Follow';
     console.log(clickedArtist)
@@ -212,6 +213,10 @@ class Profile extends Component {
         <section className="artist-info">
           <article className="artist-user">
             <img src={tag} alt="artist tag" className="artist-tag" />
+            <section className="change-tag">
+              <p>Edit tag url: </p>
+              <input onBlur={() => updateProfile(clickedArtist, tagUrl, false)} value={this.state.tag} onChange={e => this.setState({tagUrl: e.target.value})} />
+            </section>
             <p>
               {name}
             </p>
@@ -222,7 +227,7 @@ class Profile extends Component {
           <section className="artist-bio">
             <span>Short-Bio:</span>
             {!this.verifyUserProfile() && <p>{shortBio}</p>}
-            {this.verifyUserProfile() && <textarea onBlur={() => updateBio(clickedArtist, bio)} value={this.state.bio} onChange={e => this.setState({bio: e.target.value})}>
+            {this.verifyUserProfile() && <textarea onBlur={() => updateProfile(clickedArtist, false, bio)} value={this.state.bio} onChange={e => this.setState({bio: e.target.value})}>
             </textarea>}
             {this.verifyUserProfile() &&
               <button onClick={() => this.setState({ addImage: true, addImgErr: false })}>
