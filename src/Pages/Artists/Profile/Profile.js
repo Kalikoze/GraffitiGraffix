@@ -221,8 +221,9 @@ class Profile extends Component {
           </article>
           <section className="artist-bio">
             <span>Short-Bio:</span>
-            <textarea onBlur={() => updateBio(clickedArtist, bio)} value={this.state.bio} onChange={e => this.setState({bio: e.target.value})}>
-            </textarea>
+            {!this.verifyUserProfile() && <p>{shortBio}</p>}
+            {this.verifyUserProfile() && <textarea onBlur={() => updateBio(clickedArtist, bio)} value={this.state.bio} onChange={e => this.setState({bio: e.target.value})}>
+            </textarea>}
             {this.verifyUserProfile() &&
               <button onClick={() => this.setState({ addImage: true, addImgErr: false })}>
                 Add Image
