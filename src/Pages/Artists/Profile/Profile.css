@@ -106,9 +106,10 @@
 }
 
 .profile-imgs {
+  cursor: pointer;
   height: 300px;
-  width: 100%;
   padding: 10px;
+  width: 100%;
 }
 
 .delete-img {
@@ -126,4 +127,20 @@ button {
 
 .hide {
   display: none;
+}
+
+textarea {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  color: #FFF;
+  cursor: pointer;
+  font-family: 'SamsungSharpSans-Bold';
+  font-size: 20px;
+  height: 100px;
+  width: 300px;
+}
+
+textarea:hover, textarea:focus {
+  border: 2px solid #FFF;
+  outline-style: none;
 }
